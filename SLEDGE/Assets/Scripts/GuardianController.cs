@@ -80,4 +80,9 @@ public class GuardianController : MonoBehaviour
         facingRight = !facingRight;
         transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
     }
+
+    public bool getFacingRight()
+    {
+        return facingRight;
+    }
 }

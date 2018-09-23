@@ -32,58 +32,60 @@ public class Rotatable : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P) && !isRotating) {
+        if(Input.GetKeyDown(KeyCode.P)) {
             StartCoroutine(Rotate(true));
         }
-
-        if (Input.GetKeyDown(KeyCode.O) && !isRotating) {
+        if (Input.GetKeyDown(KeyCode.O)) {
             StartCoroutine(Rotate(false));
         }
     }
 
     private IEnumerator Rotate(bool directionPositive)
     {
-        // Update rotating status.
-        isRotating = true;
+        // If rotating, end coroutine.
+        if (!isRotating) {
+            // Update rotating status.
+            isRotating = true;
 
-        // Records degrees rotated from the start of the rotation.
-        float degreesRotated = 0.0f;
+            // Records degrees rotated from the start of the rotation.
+            float degreesRotated = 0.0f;
 
-        // Rotate each update while degrees to rotate is less than the rotation step.
-        while (degreesRotated < rotationSteps) {
+            // Rotate each update while degrees to rotate is less than the rotation step.
+            while (degreesRotated < rotationSteps) {
 
-            // Degrees to rotation this update.
-            float degreesToRotate = (rotationSteps - degreesRotated) * rotationSpeed * Time.deltaTime;
-            degreesToRotate = Mathf.Clamp(degreesToRotate, 1.0f, 360.0f);
+                // Degrees to rotation this update.
+                float degreesToRotate = (rotationSteps - degreesRotated) * rotationSpeed * Time.deltaTime;
+                degreesToRotate = Mathf.Clamp(degreesToRotate, 1.0f, 360.0f);
 
-            // Rotate the platform.
-            Quaternion rotation;
-            if (directionPositive) {
-                rotation = Quaternion.AngleAxis(degreesToRotate, rotationAxisVector);
-            } else {
-                rotation = Quaternion.AngleAxis(-degreesToRotate, rotationAxisVector);
-            }
-            transform.Rotate(rotation.eulerAngles);
-
-            // Update degreesRotated.
-            degreesRotated += degreesToRotate;
-
-            // If overshot step, rotate back to destination.
-            if (degreesRotated > rotationSteps) {
-                Quaternion rotationFinal = Quaternion.AngleAxis(degreesRotated - rotationSteps, rotationAxisVector);
-
+                // Rotate the platform.
+                Quaternion rotation;
                 if (directionPositive) {
-                    transform.Rotate(-rotationFinal.eulerAngles);
+                    rotation = Quaternion.AngleAxis(degreesToRotate, rotationAxisVector);
                 } else {
-                    transform.Rotate(rotationFinal.eulerAngles);
+                    rotation = Quaternion.AngleAxis(-degreesToRotate, rotationAxisVector);
                 }
+                transform.Rotate(rotation.eulerAngles);
+
+                // Update degreesRotated.
+                degreesRotated += degreesToRotate;
+
+                // If overshot step, rotate back to destination.
+                if (degreesRotated > rotationSteps) {
+                    Quaternion rotationFinal = Quaternion.AngleAxis(degreesRotated - rotationSteps, rotationAxisVector);
+
+                    if (directionPositive) {
+                        transform.Rotate(-rotationFinal.eulerAngles);
+                    } else {
+                        transform.Rotate(rotationFinal.eulerAngles);
+                    }
+                }
+
+                // Wait for next update.
+                yield return null;
             }
 
-            // Wait for next update.
-            yield return null;
+            // Update rotating status.
+            isRotating = false;
         }
-
-        // Update rotating status.
-        isRotating = false;
     }
 }
