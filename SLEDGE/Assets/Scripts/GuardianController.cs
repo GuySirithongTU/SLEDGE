@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,28 +18,42 @@ public class GuardianController : MonoBehaviour
     const float groundCheckRadius = 0.1f;
     [SerializeField] private LayerMask groundCheckMask;
 
+    private bool freeze = false;
     private bool facingRight = true;
+    private bool wasGrounded = false;
 
     private Rigidbody _rigidbody;
     private Vector3 velocity = Vector3.zero;
+
+    public event Action jumpEvent;
+    public event Action landEvent;
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
     }
 
+    private void Start()
+    {
+        GetComponent<HammerMoveset>().swingStartEvent += OnFreezeStart;
+        GetComponent<HammerMoveset>().swingEndEvent += OnFreezeEnd;
+    }
+
     private void Update()
     {
         walk = Input.GetAxisRaw("Horizontal") * walkSpeed;
-
         jump = Input.GetButton("Jump");
+        
     }
 
     private void FixedUpdate()
     {
         CheckGround();
-        Walk();
-        Jump();
+        
+        if(!freeze) {
+            Walk();
+            Jump();
+        }
 
         if((walk > 0.0f && !facingRight) || (walk < 0.0f && facingRight)) {
             Flip();
@@ -46,12 +61,25 @@ public class GuardianController : MonoBehaviour
     }
 
     private void CheckGround() {
-        isGrounded = false;
 
         Collider []
         hitColliders = Physics.OverlapSphere(groundCheck.position, groundCheckRadius, groundCheckMask);
         if(hitColliders.Length > 0) {
             isGrounded = true;
+
+            if(!wasGrounded) {
+                landEvent.Invoke();
+            }
+
+            wasGrounded = true;
+        } else {
+            isGrounded = false;
+
+            if(wasGrounded) {
+                jumpEvent.Invoke();
+            }
+
+            wasGrounded = false;
         }
     }
 
@@ -84,5 +112,16 @@ public class GuardianController : MonoBehaviour
     public bool getFacingRight()
     {
         return facingRight;
+    }
+
+    private void OnFreezeStart()
+    {
+        freeze = true;
+        _rigidbody.velocity = Vector3.zero;
+    }
+
+    private void OnFreezeEnd()
+    {
+        freeze = false;
     }
 }

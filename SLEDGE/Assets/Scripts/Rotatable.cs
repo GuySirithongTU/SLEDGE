@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,6 +15,9 @@ public class Rotatable : MonoBehaviour
     // PRIVATE VARIABLES
     private bool isRotating = false;        // Rotation coroutine is running.
     private Vector3 rotationAxisVector;     // Rotation axis as a vector.
+
+    public event Action RotateStartEvent;
+    public event Action RotateEndEvent;
 
     private void Awake()
     {
@@ -45,10 +49,15 @@ public class Rotatable : MonoBehaviour
         // If rotating, end coroutine.
         if (!isRotating) {
             // Update rotating status.
+            if (RotateStartEvent != null) {
+                RotateStartEvent.Invoke();
+            }
             isRotating = true;
 
             // Records degrees rotated from the start of the rotation.
             float degreesRotated = 0.0f;
+
+            yield return null;
 
             // Rotate each update while degrees to rotate is less than the rotation step.
             while (degreesRotated < rotationSteps) {
@@ -85,6 +94,9 @@ public class Rotatable : MonoBehaviour
             }
 
             // Update rotating status.
+            if(RotateEndEvent != null) {
+                RotateEndEvent.Invoke();
+            }
             isRotating = false;
         }
     }
