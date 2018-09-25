@@ -21,7 +21,8 @@ public class GuardianController : MonoBehaviour
     private bool freeze = false;
     private bool facingRight = true;
     private bool wasGrounded = false;
-
+    private bool isPlatformAttached = false;
+    
     private Rigidbody _rigidbody;
     private Vector3 velocity = Vector3.zero;
 
@@ -37,6 +38,12 @@ public class GuardianController : MonoBehaviour
     {
         GetComponent<HammerMoveset>().swingStartEvent += OnFreezeStart;
         GetComponent<HammerMoveset>().swingEndEvent += OnFreezeEnd;
+
+        PlatformAttach[] platformAttaches = FindObjectsOfType<PlatformAttach>();
+        foreach(PlatformAttach platformAttach in platformAttaches) {
+            platformAttach.attachEvent += OnPlatformAttach;
+            platformAttach.detachEvent += OnPlatformDetach;
+        }
     }
 
     private void Update()
@@ -123,5 +130,20 @@ public class GuardianController : MonoBehaviour
     private void OnFreezeEnd()
     {
         freeze = false;
+    }
+
+    private void OnPlatformAttach()
+    {
+        isPlatformAttached = true;
+    }
+
+    private void OnPlatformDetach()
+    {
+        isPlatformAttached = false;
+    }
+
+    public bool getIsPlatformAttached()
+    {
+        return isPlatformAttached;
     }
 }

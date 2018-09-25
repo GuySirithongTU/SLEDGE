@@ -8,6 +8,6 @@ public class FaceCamera : MonoBehaviour {
 
     private void LateUpdate()
     {
-        transform.LookAt(transform.position - cameraDirection);
+        transform.LookAt((transform.position - cameraDirection));
     }
 }

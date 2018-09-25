@@ -3,6 +3,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class PlatformAttach : MonoBehaviour
+{
+    public event Action attachEvent;
+    public event Action detachEvent;
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.CompareTag("Guardian")) {
+            collision.gameObject.transform.SetParent(transform.parent.parent);
+
+            if(attachEvent != null) {
+                attachEvent.Invoke();
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider collision)
+    {
+        if (collision.CompareTag("Guardian")) {
+            collision.gameObject.transform.SetParent(null);
+
+            if (detachEvent != null) {
+                detachEvent.Invoke();
+            }
+        }
+    }
+}
+
+/*
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
 public class PlatformAttach : MonoBehaviour {
 
     private bool guardianOn = false;
@@ -77,3 +111,4 @@ public class PlatformAttach : MonoBehaviour {
         platformRotating = false;
     }
 }
+*/
