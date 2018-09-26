@@ -69,8 +69,7 @@ public class GuardianController : MonoBehaviour
 
     private void CheckGround() {
 
-        Collider []
-        hitColliders = Physics.OverlapSphere(groundCheck.position, groundCheckRadius, groundCheckMask);
+        Collider[] hitColliders = Physics.OverlapSphere(groundCheck.position, groundCheckRadius, groundCheckMask);
         if(hitColliders.Length > 0) {
             isGrounded = true;
 
@@ -83,6 +82,7 @@ public class GuardianController : MonoBehaviour
             isGrounded = false;
 
             if(wasGrounded) {
+
                 jumpEvent.Invoke();
             }
 
