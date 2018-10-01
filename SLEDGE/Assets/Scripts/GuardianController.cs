@@ -50,19 +50,15 @@ public class GuardianController : MonoBehaviour
     {
         walk = Input.GetAxisRaw("Horizontal") * walkSpeed;
         jump = Input.GetButton("Jump");
-        
-    }
 
-    private void FixedUpdate()
-    {
         CheckGround();
-        
-        if(!freeze) {
+
+        if (!freeze) {
             Walk();
             Jump();
         }
 
-        if((walk > 0.0f && !facingRight) || (walk < 0.0f && facingRight)) {
+        if ((walk > 0.0f && !facingRight) || (walk < 0.0f && facingRight)) {
             Flip();
         }
     }
