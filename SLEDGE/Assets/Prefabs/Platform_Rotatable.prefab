@@ -37,7 +37,7 @@ GameObject:
   - component: {fileID: 33148013345013798}
   - component: {fileID: 23427671712864864}
   m_Layer: 10
-  m_Name: Cube
+  m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72,7 +72,7 @@ GameObject:
   - component: {fileID: 114523021709011546}
   m_Layer: 9
   m_Name: Platform_Rotatable
-  m_TagString: Platform
+  m_TagString: PlatformRotatable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -85,7 +85,7 @@ Transform:
   m_GameObject: {fileID: 1391393562114642}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 3}
   m_Children: []
   m_Father: {fileID: 4838746725872174}
   m_RootOrder: 0
@@ -147,7 +147,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 461da23eb8bee7941add47e93b2628fb, type: 2}
+  - {fileID: 2100000, guid: 10f02051a2c9dfa4baa1b0fabe68f4fa, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -184,7 +184,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 5, y: 1, z: 1}
+  m_Size: {x: 5, y: 1, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65650312446266728
 BoxCollider:
@@ -196,7 +196,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.1, z: 1.1}
+  m_Size: {x: 1, y: 1.1, z: 3.1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114523021709011546
 MonoBehaviour:
@@ -209,7 +209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3c74910470f267498db8ec0ddcea512, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationAxis: 0
+  rotationAxis: 2
   rotationSpeed: 5
   rotationSteps: 180
 --- !u!114 &114935350481862866

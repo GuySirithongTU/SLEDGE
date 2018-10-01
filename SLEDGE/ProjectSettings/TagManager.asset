@@ -4,8 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Platform
+  - PlatformStatic
   - Guardian
+  - PlatformRotatable
+  - Platform
   layers:
   - Default
   - TransparentFX
@@ -16,11 +18,11 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - Platform
+  - PlatformRotatable
   - FrontObject
   - BackObject
-  - 
-  - 
+  - WallStatic
+  - PlatformStatic
   - 
   - 
   - 

@@ -101,12 +101,24 @@ public class Rotatable : MonoBehaviour
         }
     }
 
-    public void OnHammerLand(HammerMoveset.hammerModes hammerMode)
+    public void OnHammerLand(HammerMoveset.hammerModes hammerMode, bool isOnRotatable)
     {
-        // Guardian is not on the platform
-        if(!FindObjectOfType<GuardianController>().getIsPlatformAttached()) {
-            // For z axis platforms.
-            if (rotationAxis == axis.z && hammerMode == HammerMoveset.hammerModes.ground) {
+        // For z axis platforms.
+        if (rotationAxis == axis.z && hammerMode == HammerMoveset.hammerModes.ground) {
+            // Guardian is facing right.
+            if (FindObjectOfType<GuardianController>().getFacingRight()) {
+                StartCoroutine(Rotate(true));
+            }
+            // Guardian is facing left.
+            else {
+                StartCoroutine(Rotate(false));
+            }
+        }
+
+        // For y axis platforms.
+        else if (rotationAxis == axis.y) {
+            // If guardian is in front layer and swings away from the camera.
+            if(FindObjectOfType<LayerManager>().getGuardianIsInFront() && hammerMode == HammerMoveset.hammerModes.away) {
                 // Guardian is facing right.
                 if (FindObjectOfType<GuardianController>().getFacingRight()) {
                     StartCoroutine(Rotate(true));
@@ -114,43 +126,40 @@ public class Rotatable : MonoBehaviour
                 // Guardian is facing left.
                 else {
                     StartCoroutine(Rotate(false));
+
                 }
             }
-
-            // For y axis platforms.
-            else if (rotationAxis == axis.y) {
-                // If guardian is in front layer and swings away from the camera.
-                if(FindObjectOfType<LayerManager>().getGuardianIsInFront() && hammerMode == HammerMoveset.hammerModes.away) {
-                    // Guardian is facing right.
-                    if (FindObjectOfType<GuardianController>().getFacingRight()) {
-                        StartCoroutine(Rotate(true));
-                    }
-                    // Guardian is facing left.
-                    else {
-                        StartCoroutine(Rotate(false));
-                    }
+            // If guardian is in back layer and swings toward the camera.
+            else if (!FindObjectOfType<LayerManager>().getGuardianIsInFront() && hammerMode == HammerMoveset.hammerModes.toward) {
+                // Guardian is facing right.
+                if (FindObjectOfType<GuardianController>().getFacingRight()) {
+                    StartCoroutine(Rotate(false));
                 }
-                // If guardian is in back layer and swings toward the camera.
-                else if (!FindObjectOfType<LayerManager>().getGuardianIsInFront() && hammerMode == HammerMoveset.hammerModes.toward) {
-                    // Guardian is facing right.
-                    if (FindObjectOfType<GuardianController>().getFacingRight()) {
-                        StartCoroutine(Rotate(false));
-                    }
-                    // Guardian is facing left.
-                    else {
-                        StartCoroutine(Rotate(true));
-                    }
+                // Guardian is facing left.
+                else {
+                    StartCoroutine(Rotate(true));
                 }
+            }
                 
-            }
+        }
 
-            // For x axis platforms
-            else if(rotationAxis == axis.x && hammerMode == HammerMoveset.hammerModes.ground) {
-                // If guardian is in front layer.
-                if (FindObjectOfType<LayerManager>().getGuardianIsInFront()) {
+        // For x axis platforms
+        else if(rotationAxis == axis.x && hammerMode == HammerMoveset.hammerModes.ground) {
+
+            // If guardian is in front layer.
+            if (FindObjectOfType<LayerManager>().getGuardianIsInFront()) {
+                if(!isOnRotatable) {
                     StartCoroutine(Rotate(false));
                 } else {
                     StartCoroutine(Rotate(true));
+                }
+            }
+            // If guardian is in front layer.
+            else {
+                if (!isOnRotatable) {
+                    StartCoroutine(Rotate(true));
+                } else {
+                    StartCoroutine(Rotate(false));
                 }
             }
         }
