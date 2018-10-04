@@ -14,9 +14,11 @@ public class HammerMoveset : MonoBehaviour {
     [SerializeField] private Transform hammerGroundCheck;
     [SerializeField] private Transform hammerFrontCheck;
     [SerializeField] private Transform hammerBackCheck;
+    [SerializeField] private Transform hammerSideCheck;
     private const float hammerCheckRadius = 0.1f;
     [SerializeField] private LayerMask rotatablePlatformCheckMask;
     [SerializeField] private LayerMask staticPlatformCheckMask;
+    [SerializeField] private LayerMask movablePlatformCheckMask;
 
     private Animator[] _animators;
 
@@ -60,11 +62,13 @@ public class HammerMoveset : MonoBehaviour {
 
             yield return new WaitForSeconds(0.1f);
 
+
+            Collider[] hitColliders;
             ///// GROUND
             if (hammerMode == hammerModes.ground) {
                 // For ground while on a static platform, check ground transform for rotatables.
                 if (!GetComponent<GuardianController>().getIsPlatformAttached()) {
-                    Collider[] hitColliders = Physics.OverlapSphere(hammerGroundCheck.position, hammerCheckRadius, rotatablePlatformCheckMask);
+                    hitColliders = Physics.OverlapSphere(hammerGroundCheck.position, hammerCheckRadius, rotatablePlatformCheckMask);
                     if (hitColliders.Length > 0) {
                         if (hitColliders[0].GetComponent<Rotatable>() != null) {
                             hitColliders[0].GetComponent<Rotatable>().OnHammerLand(hammerMode, false);
@@ -73,7 +77,7 @@ public class HammerMoveset : MonoBehaviour {
                 }
                 // For ground while on a rotatable platform, check ground transform for statics.
                 else {
-                    Collider[] hitColliders = Physics.OverlapSphere(hammerGroundCheck.position, hammerCheckRadius, staticPlatformCheckMask);
+                    hitColliders = Physics.OverlapSphere(hammerGroundCheck.position, hammerCheckRadius, staticPlatformCheckMask);
                     if (hitColliders.Length > 0) {
                         if (transform.parent.GetComponent<Rotatable>() != null) {
                             transform.parent.GetComponent<Rotatable>().OnHammerLand(hammerMode, true);
@@ -84,7 +88,7 @@ public class HammerMoveset : MonoBehaviour {
             } else if (hammerMode == hammerModes.away) {
                 // For away while on a static platform, check back transform for rotatables.
                 if (!GetComponent<GuardianController>().getIsPlatformAttached()) {
-                    Collider[] hitColliders = Physics.OverlapSphere(hammerBackCheck.position, hammerCheckRadius, rotatablePlatformCheckMask);
+                    hitColliders = Physics.OverlapSphere(hammerBackCheck.position, hammerCheckRadius, rotatablePlatformCheckMask);
                     if (hitColliders.Length > 0) {
                         if (hitColliders[0].GetComponent<Rotatable>() != null) {
                             hitColliders[0].GetComponent<Rotatable>().OnHammerLand(hammerMode, false);
@@ -94,7 +98,7 @@ public class HammerMoveset : MonoBehaviour {
 
                 // For away while on a rotatable platform, check back transform for statics.
                 else {
-                    Collider[] hitColliders = Physics.OverlapSphere(hammerBackCheck.position, hammerCheckRadius, staticPlatformCheckMask);
+                    hitColliders = Physics.OverlapSphere(hammerBackCheck.position, hammerCheckRadius, staticPlatformCheckMask);
                     if (hitColliders.Length > 0) {
                         if (transform.parent.GetComponent<Rotatable>() != null) {
                             transform.parent.GetComponent<Rotatable>().OnHammerLand(hammerMode, true);
@@ -106,7 +110,7 @@ public class HammerMoveset : MonoBehaviour {
                 // For toward while on a static platform, check front transform for rotatables.
                 if (!GetComponent<GuardianController>().getIsPlatformAttached()) {
                     // For toward, check front transform.
-                    Collider[] hitColliders = Physics.OverlapSphere(hammerFrontCheck.position, hammerCheckRadius, rotatablePlatformCheckMask);
+                    hitColliders = Physics.OverlapSphere(hammerFrontCheck.position, hammerCheckRadius, rotatablePlatformCheckMask);
                     if (hitColliders.Length > 0) {
                         if (hitColliders[0].GetComponent<Rotatable>() != null) {
                             hitColliders[0].GetComponent<Rotatable>().OnHammerLand(hammerMode, false);
@@ -115,7 +119,7 @@ public class HammerMoveset : MonoBehaviour {
                 }
                 // For toward while on a rotatable platform, check front transform for statics.
                 else {
-                    Collider[] hitColliders = Physics.OverlapSphere(hammerFrontCheck.position, hammerCheckRadius, staticPlatformCheckMask);
+                    hitColliders = Physics.OverlapSphere(hammerFrontCheck.position, hammerCheckRadius, staticPlatformCheckMask);
                     if (hitColliders.Length > 0) {
                         if (transform.parent.GetComponent<Rotatable>() != null) {
                             transform.parent.GetComponent<Rotatable>().OnHammerLand(hammerMode, true);
@@ -123,6 +127,17 @@ public class HammerMoveset : MonoBehaviour {
                     }
                 }
             }
+
+            ///// MOVABLE PLATFORMS
+            if (hammerMode == hammerModes.ground) {
+                hitColliders = Physics.OverlapSphere(hammerGroundCheck.position, hammerCheckRadius, movablePlatformCheckMask);
+            } else {
+                hitColliders = Physics.OverlapSphere(hammerSideCheck.position, hammerCheckRadius, movablePlatformCheckMask);
+            }
+            if(hitColliders.Length > 0 && hitColliders[0].GetComponent<Movable>() != null) {
+                hitColliders[0].GetComponent<Movable>().OnHammerLand();
+            }
+
 
             yield return new WaitForSeconds(0.4f);
             

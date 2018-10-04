@@ -23,7 +23,7 @@ TagManager:
   - BackObject
   - WallStatic
   - PlatformStatic
-  - 
+  - PlatformMovable
   - 
   - 
   - 
