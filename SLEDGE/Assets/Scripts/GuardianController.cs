@@ -21,6 +21,7 @@ public class GuardianController : MonoBehaviour
     private bool freeze = false;
     private bool facingRight = true;
     private bool wasGrounded = false;
+    private bool justJumped = false;
     private bool isPlatformAttached = false;
     
     private Rigidbody _rigidbody;
@@ -95,7 +96,8 @@ public class GuardianController : MonoBehaviour
     private void Jump()
     {
         // Initial force.
-        if(jump && isGrounded) {
+        if(jump && isGrounded && !justJumped) {
+            StartCoroutine(JustJumpStart());
             isGrounded = false;
             _rigidbody.AddForce(new Vector3(0.0f, jumpForce, 0.0f));
         }
@@ -104,6 +106,15 @@ public class GuardianController : MonoBehaviour
         if((!jump && !isGrounded) || velocity.y < 0.0f) {
             _rigidbody.velocity += Vector3.up * Physics.gravity.y * (jumpFallMultiplier - 1) * Time.deltaTime;
         }
+    }
+
+    private IEnumerator JustJumpStart()
+    {
+        justJumped = true;
+
+        yield return new WaitForSeconds(0.1f);
+
+        justJumped = false;
     }
 
     private void Flip()

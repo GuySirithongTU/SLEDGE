@@ -10,6 +10,7 @@ public class LayerManager : MonoBehaviour {
     private bool guardianIsInFront = true;
 
     private GameObject guardian;
+    
 
     private void Start()
     {

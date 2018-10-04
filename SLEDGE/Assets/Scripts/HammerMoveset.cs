@@ -18,7 +18,7 @@ public class HammerMoveset : MonoBehaviour {
     [SerializeField] private LayerMask rotatablePlatformCheckMask;
     [SerializeField] private LayerMask staticPlatformCheckMask;
 
-    private Animator _animator;
+    private Animator[] _animators;
 
     public event Action swingStartEvent;
     public event Action swingEndEvent;
@@ -35,8 +35,8 @@ public class HammerMoveset : MonoBehaviour {
     {
         GetComponent<GuardianController>().jumpEvent += OnJump;
         GetComponent<GuardianController>().landEvent += OnLand;
-
-        _animator = gameObject.GetComponentInChildren<Animator>();
+        
+        _animators = gameObject.GetComponentsInChildren<Animator>();
     }
 
     private void Update()
@@ -55,7 +55,8 @@ public class HammerMoveset : MonoBehaviour {
             if (swingStartEvent != null) {
                 swingStartEvent.Invoke();
             }
-            _animator.SetTrigger("Swing");
+            _animators[0].SetTrigger("Swing");
+            _animators[1].SetTrigger("Swing");
 
             yield return new WaitForSeconds(0.1f);
 
