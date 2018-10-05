@@ -17,6 +17,7 @@ public class GuardianController : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     const float groundCheckRadius = 0.1f;
     [SerializeField] private LayerMask groundCheckMask;
+    private Vector3 velocity = Vector3.zero;
 
     private bool freeze = false;
     private bool facingRight = true;
@@ -25,7 +26,6 @@ public class GuardianController : MonoBehaviour
     private bool isPlatformAttached = false;
     
     private Rigidbody _rigidbody;
-    private Vector3 velocity = Vector3.zero;
 
     public event Action jumpEvent;
     public event Action landEvent;
@@ -91,6 +91,14 @@ public class GuardianController : MonoBehaviour
     {
         Vector3 targetVelocity = new Vector3(walk, _rigidbody.velocity.y, _rigidbody.velocity.z);
         _rigidbody.velocity = Vector3.SmoothDamp(_rigidbody.velocity, targetVelocity, ref velocity, walkSmooth);
+
+        if(_rigidbody.velocity.magnitude >= 0.1f) {
+            transform.GetChild(0).GetComponent<Animator>().SetBool("isWalking", true);
+            transform.GetChild(1).GetComponent<Animator>().SetBool("isWalking", true);
+        } else {
+            transform.GetChild(0).GetComponent<Animator>().SetBool("isWalking", false);
+            transform.GetChild(1).GetComponent<Animator>().SetBool("isWalking", false);
+        }
     }
 
     private void Jump()
