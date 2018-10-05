@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EZCameraShake;
 
 public class HammerMoveset : MonoBehaviour {
 
@@ -19,6 +20,8 @@ public class HammerMoveset : MonoBehaviour {
     [SerializeField] private LayerMask rotatablePlatformCheckMask;
     [SerializeField] private LayerMask staticPlatformCheckMask;
     [SerializeField] private LayerMask movablePlatformCheckMask;
+
+    [SerializeField] private ParticleSystem impactParticle;
 
     private Animator[] _animators;
 
@@ -72,6 +75,9 @@ public class HammerMoveset : MonoBehaviour {
                     if (hitColliders.Length > 0) {
                         if (hitColliders[0].GetComponent<Rotatable>() != null) {
                             hitColliders[0].GetComponent<Rotatable>().OnHammerLand(hammerMode, false);
+
+                            InstantiateImpactParticle(hitColliders, false);
+                            cameraShake();
                         }
                     }
                 }
@@ -81,6 +87,9 @@ public class HammerMoveset : MonoBehaviour {
                     if (hitColliders.Length > 0) {
                         if (transform.parent.GetComponent<Rotatable>() != null) {
                             transform.parent.GetComponent<Rotatable>().OnHammerLand(hammerMode, true);
+
+                            InstantiateImpactParticle(hitColliders, false);
+                            cameraShake();
                         }
                     }
                 }
@@ -92,6 +101,9 @@ public class HammerMoveset : MonoBehaviour {
                     if (hitColliders.Length > 0) {
                         if (hitColliders[0].GetComponent<Rotatable>() != null) {
                             hitColliders[0].GetComponent<Rotatable>().OnHammerLand(hammerMode, false);
+
+                            InstantiateImpactParticle(hitColliders, false);
+                            cameraShake();
                         }
                     }
                 }
@@ -102,6 +114,9 @@ public class HammerMoveset : MonoBehaviour {
                     if (hitColliders.Length > 0) {
                         if (transform.parent.GetComponent<Rotatable>() != null) {
                             transform.parent.GetComponent<Rotatable>().OnHammerLand(hammerMode, true);
+
+                            InstantiateImpactParticle(hitColliders, true);
+                            cameraShake();
                         }
                     }
                 }
@@ -114,6 +129,9 @@ public class HammerMoveset : MonoBehaviour {
                     if (hitColliders.Length > 0) {
                         if (hitColliders[0].GetComponent<Rotatable>() != null) {
                             hitColliders[0].GetComponent<Rotatable>().OnHammerLand(hammerMode, false);
+
+                            InstantiateImpactParticle(hitColliders, false);
+                            cameraShake();
                         }
                     }
                 }
@@ -123,6 +141,9 @@ public class HammerMoveset : MonoBehaviour {
                     if (hitColliders.Length > 0) {
                         if (transform.parent.GetComponent<Rotatable>() != null) {
                             transform.parent.GetComponent<Rotatable>().OnHammerLand(hammerMode, true);
+
+                            InstantiateImpactParticle(hitColliders, true);
+                            cameraShake();
                         }
                     }
                 }
@@ -136,6 +157,9 @@ public class HammerMoveset : MonoBehaviour {
             }
             if(hitColliders.Length > 0 && hitColliders[0].GetComponent<Movable>() != null) {
                 hitColliders[0].GetComponent<Movable>().OnHammerLand();
+
+                InstantiateImpactParticle(hitColliders, false);
+                cameraShake();
             }
 
 
@@ -164,6 +188,23 @@ public class HammerMoveset : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.RightArrow)) {
             hammerMode = hammerModes.away;
         }
+    }
+
+    private void InstantiateImpactParticle(Collider[] hitColliders, bool isOnPlatform)
+    {
+        ParticleSystem impact = Instantiate(impactParticle, hammerSideCheck);
+        ParticleSystem.MainModule mainModule = impact.main;
+
+        if(!isOnPlatform) {
+            mainModule.startColor = hitColliders[0].transform.GetChild(0).transform.GetChild(0).GetComponent<MeshRenderer>().material.color;
+        } else {
+            mainModule.startColor = hitColliders[0].transform.GetComponent<MeshRenderer>().material.color;
+        }
+    }
+
+    private void cameraShake()
+    {
+        CameraShaker.Instance.ShakeOnce(4f, 4f, 0f, 1f);
     }
 
     private void OnJump()
