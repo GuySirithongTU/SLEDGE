@@ -65,7 +65,6 @@ public class HammerMoveset : MonoBehaviour {
 
             yield return new WaitForSeconds(0.1f);
 
-
             Collider[] hitColliders;
             ///// GROUND
             if (hammerMode == hammerModes.ground) {

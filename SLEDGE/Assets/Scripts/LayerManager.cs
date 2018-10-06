@@ -10,7 +10,6 @@ public class LayerManager : MonoBehaviour {
     private bool guardianIsInFront = true;
 
     private GameObject guardian;
-    
 
     private void Start()
     {
@@ -44,6 +43,7 @@ public class LayerManager : MonoBehaviour {
                 i.material.color = new Color(i.material.color.r, i.material.color.g, i.material.color.b, 1.0f);
             }
         }
+        
     }
 
     private void OnGuardianMoveBack()
