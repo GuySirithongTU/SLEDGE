@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PostProcessing;
 
 public class LayerManager : MonoBehaviour {
 
@@ -10,6 +11,9 @@ public class LayerManager : MonoBehaviour {
     private bool guardianIsInFront = true;
 
     private GameObject guardian;
+
+    [SerializeField] private PostProcessingProfile frontLayer;
+    [SerializeField] private PostProcessingProfile backLayer;
 
     private void Start()
     {
@@ -43,7 +47,8 @@ public class LayerManager : MonoBehaviour {
                 i.material.color = new Color(i.material.color.r, i.material.color.g, i.material.color.b, 1.0f);
             }
         }
-        
+
+        FindObjectOfType<PostProcessingBehaviour>().profile = frontLayer;
     }
 
     private void OnGuardianMoveBack()
@@ -56,6 +61,8 @@ public class LayerManager : MonoBehaviour {
                 i.material.color = new Color(i.material.color.r, i.material.color.g, i.material.color.b, 0.5f);
             }
         }
+
+        FindObjectOfType<PostProcessingBehaviour>().profile = backLayer;
     }
 
     public bool getGuardianIsInFront()

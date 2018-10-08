@@ -40,6 +40,13 @@ public class GuardianController : MonoBehaviour
         GetComponent<HammerMoveset>().swingStartEvent += OnFreezeStart;
         GetComponent<HammerMoveset>().swingEndEvent += OnFreezeEnd;
 
+        Rotatable[] rotatables = FindObjectsOfType<Rotatable>();
+        foreach(Rotatable rotatable in rotatables) {
+            rotatable.RotateStartEvent += OnFreezeStart;
+            rotatable.RotateEndEvent += OnFreezeEnd;
+        }
+
+
         PlatformAttach[] platformAttaches = FindObjectsOfType<PlatformAttach>();
         foreach(PlatformAttach platformAttach in platformAttaches) {
             platformAttach.attachEvent += OnPlatformAttach;
@@ -51,17 +58,18 @@ public class GuardianController : MonoBehaviour
     {
         walk = Input.GetAxisRaw("Horizontal") * walkSpeed;
         jump = Input.GetButton("Jump");
-
+        
         CheckGround();
 
         if (!freeze) {
             Walk();
             Jump();
+
+            if ((walk > 0.0f && !facingRight) || (walk < 0.0f && facingRight)) {
+                Flip();
+            }
         }
 
-        if ((walk > 0.0f && !facingRight) || (walk < 0.0f && facingRight)) {
-            Flip();
-        }
     }
 
     private void CheckGround() {
@@ -92,13 +100,14 @@ public class GuardianController : MonoBehaviour
         Vector3 targetVelocity = new Vector3(walk, _rigidbody.velocity.y, _rigidbody.velocity.z);
         _rigidbody.velocity = Vector3.SmoothDamp(_rigidbody.velocity, targetVelocity, ref velocity, walkSmooth);
 
-        if(_rigidbody.velocity.magnitude >= 0.1f) {
+        if (Mathf.Abs(walk) >= 0.1f) {
             transform.GetChild(0).GetComponent<Animator>().SetBool("isWalking", true);
             transform.GetChild(1).GetComponent<Animator>().SetBool("isWalking", true);
         } else {
             transform.GetChild(0).GetComponent<Animator>().SetBool("isWalking", false);
             transform.GetChild(1).GetComponent<Animator>().SetBool("isWalking", false);
         }
+
     }
 
     private void Jump()
