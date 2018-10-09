@@ -12,6 +12,11 @@ public class TargetFollower : MonoBehaviour {
 
     public Transform target;
 
+    private void Start()
+    {
+        transform.position = new Vector3(target.position.x * parallax, target.position.y * parallax, target.position.z) + offset;
+    }
+
     private void FixedUpdate()
     {
         Vector3 targetPosition = new Vector3(target.position.x * parallax, target.position.y * parallax, target.position.z);

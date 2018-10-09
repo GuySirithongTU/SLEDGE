@@ -19,11 +19,13 @@ public class GuardianController : MonoBehaviour
     [SerializeField] private LayerMask groundCheckMask;
     private Vector3 velocity = Vector3.zero;
 
-    private bool freeze = false;
     private bool facingRight = true;
     private bool wasGrounded = false;
     private bool justJumped = false;
     private bool isPlatformAttached = false;
+    private bool isSwinging = false;
+    private bool platformRotating = false;
+    private bool goalReached = false;
     
     private Rigidbody _rigidbody;
 
@@ -37,21 +39,22 @@ public class GuardianController : MonoBehaviour
 
     private void Start()
     {
-        GetComponent<HammerMoveset>().swingStartEvent += OnFreezeStart;
-        GetComponent<HammerMoveset>().swingEndEvent += OnFreezeEnd;
+        GetComponent<HammerMoveset>().swingStartEvent += OnSwingingStart;
+        GetComponent<HammerMoveset>().swingEndEvent += OnSwingingEnd;
 
         Rotatable[] rotatables = FindObjectsOfType<Rotatable>();
         foreach(Rotatable rotatable in rotatables) {
-            rotatable.RotateStartEvent += OnFreezeStart;
-            rotatable.RotateEndEvent += OnFreezeEnd;
+            rotatable.RotateStartEvent += OnPlatformStartRotating;
+            rotatable.RotateEndEvent += OnPlatformStopRotating;
         }
-
 
         PlatformAttach[] platformAttaches = FindObjectsOfType<PlatformAttach>();
         foreach(PlatformAttach platformAttach in platformAttaches) {
             platformAttach.attachEvent += OnPlatformAttach;
             platformAttach.detachEvent += OnPlatformDetach;
         }
+
+        FindObjectOfType<Goal>().reachGoalEvent += OnReachGoal;
     }
 
     private void Update()
@@ -61,13 +64,21 @@ public class GuardianController : MonoBehaviour
         
         CheckGround();
 
-        if (!freeze) {
+        if (!isSwinging && !platformRotating && !goalReached) {
             Walk();
             Jump();
 
             if ((walk > 0.0f && !facingRight) || (walk < 0.0f && facingRight)) {
                 Flip();
             }
+        }
+
+        if (_rigidbody.velocity.magnitude >= 0.1f) {
+            transform.GetChild(0).GetComponent<Animator>().SetBool("isWalking", true);
+            transform.GetChild(1).GetComponent<Animator>().SetBool("isWalking", true);
+        } else {
+            transform.GetChild(0).GetComponent<Animator>().SetBool("isWalking", false);
+            transform.GetChild(1).GetComponent<Animator>().SetBool("isWalking", false);
         }
 
     }
@@ -99,15 +110,6 @@ public class GuardianController : MonoBehaviour
     {
         Vector3 targetVelocity = new Vector3(walk, _rigidbody.velocity.y, _rigidbody.velocity.z);
         _rigidbody.velocity = Vector3.SmoothDamp(_rigidbody.velocity, targetVelocity, ref velocity, walkSmooth);
-
-        if (Mathf.Abs(walk) >= 0.1f) {
-            transform.GetChild(0).GetComponent<Animator>().SetBool("isWalking", true);
-            transform.GetChild(1).GetComponent<Animator>().SetBool("isWalking", true);
-        } else {
-            transform.GetChild(0).GetComponent<Animator>().SetBool("isWalking", false);
-            transform.GetChild(1).GetComponent<Animator>().SetBool("isWalking", false);
-        }
-
     }
 
     private void Jump()
@@ -145,15 +147,15 @@ public class GuardianController : MonoBehaviour
         return facingRight;
     }
 
-    private void OnFreezeStart()
+    private void OnSwingingStart()
     {
-        freeze = true;
+        isSwinging = true;
         _rigidbody.velocity = Vector3.zero;
     }
 
-    private void OnFreezeEnd()
+    private void OnSwingingEnd()
     {
-        freeze = false;
+        isSwinging = false;
     }
 
     private void OnPlatformAttach()
@@ -166,8 +168,30 @@ public class GuardianController : MonoBehaviour
         isPlatformAttached = false;
     }
 
+    private void OnPlatformStartRotating()
+    {
+        platformRotating = true;
+        _rigidbody.velocity = Vector3.zero;
+    }
+
+    private void OnPlatformStopRotating()
+    {
+        platformRotating = false;
+    }
+
+    public void OnReachGoal()
+    {
+        goalReached = true;
+        _rigidbody.velocity = Vector3.zero;
+    }
+
     public bool getIsPlatformAttached()
     {
         return isPlatformAttached;
+    }
+
+    public bool getPlatformRotating()
+    {
+        return platformRotating;
     }
 }

@@ -7,7 +7,6 @@ using EZCameraShake;
 public class HammerMoveset : MonoBehaviour {
 
 	public enum hammerModes { ground, toward, away };
-    private hammerModes hammerMode;
 
     private bool isAirbourne;
     private bool isSwinging;
@@ -30,9 +29,6 @@ public class HammerMoveset : MonoBehaviour {
 
     private void Awake()
     {
-        //Initialize hammer mode.
-        hammerMode = hammerModes.ground;
-
         isSwinging = false;
     }
 
@@ -46,7 +42,6 @@ public class HammerMoveset : MonoBehaviour {
 
     private void Update()
     {
-        UpdateMode();
         StartCoroutine(Swing());
 
         //Debug.Log(hammerMode);
@@ -55,137 +50,168 @@ public class HammerMoveset : MonoBehaviour {
 
     private IEnumerator Swing()
     {
-        if(Input.GetKeyDown(KeyCode.Space) && !isAirbourne && !isSwinging) {
+        ///// GROUND
+        if (Input.GetKeyDown(KeyCode.DownArrow) && !isAirbourne && !isSwinging) {
             isSwinging = true;
             if (swingStartEvent != null) {
                 swingStartEvent.Invoke();
             }
-            _animators[0].SetTrigger("Swing");
-            _animators[1].SetTrigger("Swing");
+            _animators[0].SetTrigger("swingGround");
+            _animators[1].SetTrigger("swingGround");
 
             yield return new WaitForSeconds(0.1f);
 
             Collider[] hitColliders;
-            ///// GROUND
-            if (hammerMode == hammerModes.ground) {
-                // For ground while on a static platform, check ground transform for rotatables.
-                if (!GetComponent<GuardianController>().getIsPlatformAttached()) {
-                    hitColliders = Physics.OverlapSphere(hammerGroundCheck.position, hammerCheckRadius, rotatablePlatformCheckMask);
-                    if (hitColliders.Length > 0) {
-                        if (hitColliders[0].GetComponent<Rotatable>() != null) {
-                            hitColliders[0].GetComponent<Rotatable>().OnHammerLand(hammerMode, false);
+            // For ground while on a static platform, check ground transform for rotatables.
+            if (!GetComponent<GuardianController>().getIsPlatformAttached()) {
+                hitColliders = Physics.OverlapSphere(hammerGroundCheck.position, hammerCheckRadius, rotatablePlatformCheckMask);
+                if (hitColliders.Length > 0) {
+                    if (hitColliders[0].GetComponent<Rotatable>() != null) {
+                        hitColliders[0].GetComponent<Rotatable>().OnHammerLand(hammerModes.ground, false);
 
-                            InstantiateImpactParticle(hitColliders, false);
-                            cameraShake();
-                        }
+                        InstantiateImpactParticle(hitColliders, false);
+                        cameraShake();
                     }
                 }
-                // For ground while on a rotatable platform, check ground transform for statics.
-                else {
-                    hitColliders = Physics.OverlapSphere(hammerGroundCheck.position, hammerCheckRadius, staticPlatformCheckMask);
-                    if (hitColliders.Length > 0) {
-                        if (transform.parent.GetComponent<Rotatable>() != null) {
-                            transform.parent.GetComponent<Rotatable>().OnHammerLand(hammerMode, true);
+            }
+            // For ground while on a rotatable platform, check ground transform for statics.
+            else {
+                hitColliders = Physics.OverlapSphere(hammerGroundCheck.position, hammerCheckRadius, staticPlatformCheckMask);
+                if (hitColliders.Length > 0) {
+                    if (transform.parent.GetComponent<Rotatable>() != null) {
+                        transform.parent.GetComponent<Rotatable>().OnHammerLand(hammerModes.ground, true);
 
-                            InstantiateImpactParticle(hitColliders, false);
-                            cameraShake();
-                        }
-                    }
-                }
-            ///// AWAY
-            } else if (hammerMode == hammerModes.away) {
-                // For away while on a static platform, check back transform for rotatables.
-                if (!GetComponent<GuardianController>().getIsPlatformAttached()) {
-                    hitColliders = Physics.OverlapSphere(hammerBackCheck.position, hammerCheckRadius, rotatablePlatformCheckMask);
-                    if (hitColliders.Length > 0) {
-                        if (hitColliders[0].GetComponent<Rotatable>() != null) {
-                            hitColliders[0].GetComponent<Rotatable>().OnHammerLand(hammerMode, false);
-
-                            InstantiateImpactParticle(hitColliders, false);
-                            cameraShake();
-                        }
-                    }
-                }
-
-                // For away while on a rotatable platform, check back transform for statics.
-                else {
-                    hitColliders = Physics.OverlapSphere(hammerBackCheck.position, hammerCheckRadius, staticPlatformCheckMask);
-                    if (hitColliders.Length > 0) {
-                        if (transform.parent.GetComponent<Rotatable>() != null) {
-                            transform.parent.GetComponent<Rotatable>().OnHammerLand(hammerMode, true);
-
-                            InstantiateImpactParticle(hitColliders, true);
-                            cameraShake();
-                        }
-                    }
-                }
-            ///// TOWARD
-            } else if (hammerMode == hammerModes.toward) {
-                // For toward while on a static platform, check front transform for rotatables.
-                if (!GetComponent<GuardianController>().getIsPlatformAttached()) {
-                    // For toward, check front transform.
-                    hitColliders = Physics.OverlapSphere(hammerFrontCheck.position, hammerCheckRadius, rotatablePlatformCheckMask);
-                    if (hitColliders.Length > 0) {
-                        if (hitColliders[0].GetComponent<Rotatable>() != null) {
-                            hitColliders[0].GetComponent<Rotatable>().OnHammerLand(hammerMode, false);
-
-                            InstantiateImpactParticle(hitColliders, false);
-                            cameraShake();
-                        }
-                    }
-                }
-                // For toward while on a rotatable platform, check front transform for statics.
-                else {
-                    hitColliders = Physics.OverlapSphere(hammerFrontCheck.position, hammerCheckRadius, staticPlatformCheckMask);
-                    if (hitColliders.Length > 0) {
-                        if (transform.parent.GetComponent<Rotatable>() != null) {
-                            transform.parent.GetComponent<Rotatable>().OnHammerLand(hammerMode, true);
-
-                            InstantiateImpactParticle(hitColliders, true);
-                            cameraShake();
-                        }
+                        InstantiateImpactParticle(hitColliders, false);
+                        cameraShake();
                     }
                 }
             }
 
-            ///// MOVABLE PLATFORMS
-            if (hammerMode == hammerModes.ground) {
-                hitColliders = Physics.OverlapSphere(hammerGroundCheck.position, hammerCheckRadius, movablePlatformCheckMask);
-            } else {
-                hitColliders = Physics.OverlapSphere(hammerSideCheck.position, hammerCheckRadius, movablePlatformCheckMask);
-            }
-            if(hitColliders.Length > 0 && hitColliders[0].GetComponent<Movable>() != null) {
+            // For movable platforms.
+            hitColliders = Physics.OverlapSphere(hammerSideCheck.position, hammerCheckRadius, movablePlatformCheckMask);
+            if (hitColliders.Length > 0 && hitColliders[0].GetComponent<Movable>() != null) {
                 hitColliders[0].GetComponent<Movable>().OnHammerLand();
 
                 InstantiateImpactParticle(hitColliders, false);
                 cameraShake();
             }
 
-
             yield return new WaitForSeconds(0.4f);
-            
+
             isSwinging = false;
             if (swingEndEvent != null) {
                 swingEndEvent.Invoke();
             }
         }
-    }
-    
-    private void UpdateMode()
-    {
-        // Ground mode.
-        if(Input.GetKeyDown(KeyCode.DownArrow)) {
-            hammerMode = hammerModes.ground;
+
+        ///// AWAY
+        if (Input.GetKeyDown(KeyCode.RightArrow) && !isAirbourne && !isSwinging) {
+            isSwinging = true;
+            if (swingStartEvent != null) {
+                swingStartEvent.Invoke();
+            }
+            _animators[0].SetTrigger("swingAway");
+            _animators[1].SetTrigger("swingAway");
+
+            yield return new WaitForSeconds(0.1f);
+
+            Collider[] hitColliders;
+            // For away while on a static platform, check back transform for rotatables.
+            if (!GetComponent<GuardianController>().getIsPlatformAttached()) {
+                hitColliders = Physics.OverlapSphere(hammerBackCheck.position, hammerCheckRadius, rotatablePlatformCheckMask);
+                if (hitColliders.Length > 0) {
+                    if (hitColliders[0].GetComponent<Rotatable>() != null) {
+                        hitColliders[0].GetComponent<Rotatable>().OnHammerLand(hammerModes.away, false);
+
+                        InstantiateImpactParticle(hitColliders, false);
+                        cameraShake();
+                    }
+                }
+            }
+
+            // For away while on a rotatable platform, check back transform for statics.
+            else {
+                hitColliders = Physics.OverlapSphere(hammerBackCheck.position, hammerCheckRadius, staticPlatformCheckMask);
+                if (hitColliders.Length > 0) {
+                    if (transform.parent.GetComponent<Rotatable>() != null) {
+                        transform.parent.GetComponent<Rotatable>().OnHammerLand(hammerModes.away, true);
+
+                        InstantiateImpactParticle(hitColliders, true);
+                        cameraShake();
+                    }
+                }
+            }
+
+            // For movable platforms.
+            hitColliders = Physics.OverlapSphere(hammerSideCheck.position, hammerCheckRadius, movablePlatformCheckMask);
+            if (hitColliders.Length > 0 && hitColliders[0].GetComponent<Movable>() != null) {
+                hitColliders[0].GetComponent<Movable>().OnHammerLand();
+
+                InstantiateImpactParticle(hitColliders, false);
+                cameraShake();
+            }
+
+            yield return new WaitForSeconds(0.4f);
+
+            isSwinging = false;
+            if (swingEndEvent != null) {
+                swingEndEvent.Invoke();
+            }
         }
 
-        // Toward mode.
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-            hammerMode = hammerModes.toward;
-        }
+        ///// TOWARD
+        if (Input.GetKeyDown(KeyCode.LeftArrow) && !isAirbourne && !isSwinging) {
+            isSwinging = true;
+            if (swingStartEvent != null) {
+                swingStartEvent.Invoke();
+            }
+            _animators[0].SetTrigger("swingToward");
+            _animators[1].SetTrigger("swingToward");
 
-        // Away mode.
-        if (Input.GetKeyDown(KeyCode.RightArrow)) {
-            hammerMode = hammerModes.away;
+            yield return new WaitForSeconds(0.1f);
+
+            Collider[] hitColliders;
+            // For toward while on a static platform, check front transform for rotatables.
+            if (!GetComponent<GuardianController>().getIsPlatformAttached()) {
+                // For toward, check front transform.
+                hitColliders = Physics.OverlapSphere(hammerFrontCheck.position, hammerCheckRadius, rotatablePlatformCheckMask);
+                if (hitColliders.Length > 0) {
+                    if (hitColliders[0].GetComponent<Rotatable>() != null) {
+                        hitColliders[0].GetComponent<Rotatable>().OnHammerLand(hammerModes.toward, false);
+
+                        InstantiateImpactParticle(hitColliders, false);
+                        cameraShake();
+                    }
+                }
+            }
+            // For toward while on a rotatable platform, check front transform for statics.
+            else {
+                hitColliders = Physics.OverlapSphere(hammerFrontCheck.position, hammerCheckRadius, staticPlatformCheckMask);
+                if (hitColliders.Length > 0) {
+                    if (transform.parent.GetComponent<Rotatable>() != null) {
+                        transform.parent.GetComponent<Rotatable>().OnHammerLand(hammerModes.toward, true);
+
+                        InstantiateImpactParticle(hitColliders, true);
+                        cameraShake();
+                    }
+                }
+            }
+
+            // For movable platforms.
+            hitColliders = Physics.OverlapSphere(hammerSideCheck.position, hammerCheckRadius, movablePlatformCheckMask);
+            if (hitColliders.Length > 0 && hitColliders[0].GetComponent<Movable>() != null) {
+                hitColliders[0].GetComponent<Movable>().OnHammerLand();
+
+                InstantiateImpactParticle(hitColliders, false);
+                cameraShake();
+            }
+
+            yield return new WaitForSeconds(0.4f);
+
+            isSwinging = false;
+            if (swingEndEvent != null) {
+                swingEndEvent.Invoke();
+            }
         }
     }
 

@@ -15,6 +15,8 @@ public class LayerManager : MonoBehaviour {
     [SerializeField] private PostProcessingProfile frontLayer;
     [SerializeField] private PostProcessingProfile backLayer;
 
+    [SerializeField] private MeshRenderer frontPlane;
+
     private void Start()
     {
         guardian = FindObjectOfType<GuardianController>().gameObject;
@@ -30,39 +32,25 @@ public class LayerManager : MonoBehaviour {
         }
 
         // Snap guardian to layer's z if not being attached to a platform.
-        if (guardianIsInFront && !guardian.GetComponent<GuardianController>().getIsPlatformAttached()) {
+        if (guardianIsInFront && !guardian.GetComponent<GuardianController>().getPlatformRotating()) {
             guardian.transform.position = new Vector3(guardian.transform.position.x, guardian.transform.position.y, frontZ);
-        } else if (!guardianIsInFront && !guardian.GetComponent<GuardianController>().getIsPlatformAttached()) {
+        } else if (!guardianIsInFront && !guardian.GetComponent<GuardianController>().getPlatformRotating()) {
             guardian.transform.position = new Vector3(guardian.transform.position.x, guardian.transform.position.y, backZ);
         }
+
+        // Set alpha for front camera render texture.
+        float alpha = - ((guardian.transform.position.z - frontZ) * backZ / frontZ) + 1;
+        frontPlane.material.SetColor("_Color", new Color(1f, 1f, 1f, Mathf.Clamp01(alpha)));
     }
 
     private void OnGuardianMoveFront()
     {
         guardianIsInFront = true;
-
-        MeshRenderer[] meshes = FindObjectsOfType<MeshRenderer>();
-        foreach (MeshRenderer i in meshes) {
-            if (i.gameObject.layer == 10) {
-                i.material.color = new Color(i.material.color.r, i.material.color.g, i.material.color.b, 1.0f);
-            }
-        }
-
-        FindObjectOfType<PostProcessingBehaviour>().profile = frontLayer;
     }
 
     private void OnGuardianMoveBack()
     {
         guardianIsInFront = false;
-
-        MeshRenderer[] meshes = FindObjectsOfType<MeshRenderer>();
-        foreach (MeshRenderer i in meshes) {
-            if (i.gameObject.layer == 10) {
-                i.material.color = new Color(i.material.color.r, i.material.color.g, i.material.color.b, 0.5f);
-            }
-        }
-
-        FindObjectOfType<PostProcessingBehaviour>().profile = backLayer;
     }
 
     public bool getGuardianIsInFront()
