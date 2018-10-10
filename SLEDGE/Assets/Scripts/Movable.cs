@@ -35,9 +35,9 @@ public class Movable : MonoBehaviour {
 
             // Set rigidbody velocity.
             if (movingRight) {
-                _rigidbody.velocity = new Vector3(moveSpeed * Time.deltaTime, _rigidbody.velocity.y, _rigidbody.velocity.z);
+                _rigidbody.velocity = new Vector3(moveSpeed, _rigidbody.velocity.y, _rigidbody.velocity.z);
             } else {
-                _rigidbody.velocity = new Vector3(-moveSpeed * Time.deltaTime, _rigidbody.velocity.y, _rigidbody.velocity.z);
+                _rigidbody.velocity = new Vector3(-moveSpeed, _rigidbody.velocity.y, _rigidbody.velocity.z);
             }
 
             // Wait for next update.
