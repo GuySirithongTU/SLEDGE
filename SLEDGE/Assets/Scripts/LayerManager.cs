@@ -39,7 +39,7 @@ public class LayerManager : MonoBehaviour {
         }
 
         // Set alpha for front camera render texture.
-        float alpha = - ((guardian.transform.position.z - frontZ) * backZ / frontZ) + 1;
+        float alpha = - ((guardian.transform.position.z - frontZ) * backZ / frontZ) + 1.2f;
         frontPlane.material.SetColor("_Color", new Color(1f, 1f, 1f, Mathf.Clamp01(alpha)));
     }
 

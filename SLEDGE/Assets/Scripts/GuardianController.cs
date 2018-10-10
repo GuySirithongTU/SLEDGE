@@ -63,6 +63,14 @@ public class GuardianController : MonoBehaviour
         jump = Input.GetButton("Jump");
         
         CheckGround();
+        
+        if (_rigidbody.velocity.magnitude >= 0.1f) {
+            transform.GetChild(0).GetComponent<Animator>().SetBool("isWalking", true);
+            //transform.GetChild(1).GetComponent<Animator>().SetBool("isWalking", true);
+        } else {
+            transform.GetChild(0).GetComponent<Animator>().SetBool("isWalking", false);
+            //transform.GetChild(1).GetComponent<Animator>().SetBool("isWalking", false);
+        }
 
         if (!isSwinging && !platformRotating && !goalReached) {
             Walk();
@@ -73,13 +81,6 @@ public class GuardianController : MonoBehaviour
             }
         }
 
-        if (_rigidbody.velocity.magnitude >= 0.1f) {
-            transform.GetChild(0).GetComponent<Animator>().SetBool("isWalking", true);
-            transform.GetChild(1).GetComponent<Animator>().SetBool("isWalking", true);
-        } else {
-            transform.GetChild(0).GetComponent<Animator>().SetBool("isWalking", false);
-            transform.GetChild(1).GetComponent<Animator>().SetBool("isWalking", false);
-        }
 
     }
 
@@ -91,6 +92,7 @@ public class GuardianController : MonoBehaviour
 
             if(!wasGrounded) {
                 landEvent.Invoke();
+                _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, _rigidbody.velocity.y, 0f);
             }
 
             wasGrounded = true;
@@ -98,7 +100,6 @@ public class GuardianController : MonoBehaviour
             isGrounded = false;
 
             if(wasGrounded) {
-
                 jumpEvent.Invoke();
             }
 
@@ -183,6 +184,11 @@ public class GuardianController : MonoBehaviour
     {
         goalReached = true;
         _rigidbody.velocity = Vector3.zero;
+    }
+    
+    public bool getIsGrounded()
+    {
+        return isGrounded;
     }
 
     public bool getIsPlatformAttached()

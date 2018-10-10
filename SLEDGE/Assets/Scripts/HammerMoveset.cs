@@ -57,7 +57,7 @@ public class HammerMoveset : MonoBehaviour {
                 swingStartEvent.Invoke();
             }
             _animators[0].SetTrigger("swingGround");
-            _animators[1].SetTrigger("swingGround");
+            //_animators[1].SetTrigger("swingGround");
 
             yield return new WaitForSeconds(0.1f);
 
@@ -71,6 +71,7 @@ public class HammerMoveset : MonoBehaviour {
 
                         InstantiateImpactParticle(hitColliders, false);
                         cameraShake();
+                        FindObjectOfType<GuardianAudio>().playImpactSound();
                     }
                 }
             }
@@ -83,6 +84,7 @@ public class HammerMoveset : MonoBehaviour {
 
                         InstantiateImpactParticle(hitColliders, false);
                         cameraShake();
+                        FindObjectOfType<GuardianAudio>().playImpactSound();
                     }
                 }
             }
@@ -94,6 +96,7 @@ public class HammerMoveset : MonoBehaviour {
 
                 InstantiateImpactParticle(hitColliders, false);
                 cameraShake();
+                FindObjectOfType<GuardianAudio>().playImpactSound();
             }
 
             yield return new WaitForSeconds(0.4f);
@@ -111,7 +114,7 @@ public class HammerMoveset : MonoBehaviour {
                 swingStartEvent.Invoke();
             }
             _animators[0].SetTrigger("swingAway");
-            _animators[1].SetTrigger("swingAway");
+            //_animators[1].SetTrigger("swingAway");
 
             yield return new WaitForSeconds(0.1f);
 
@@ -125,6 +128,7 @@ public class HammerMoveset : MonoBehaviour {
 
                         InstantiateImpactParticle(hitColliders, false);
                         cameraShake();
+                        FindObjectOfType<GuardianAudio>().playImpactSound();
                     }
                 }
             }
@@ -138,6 +142,7 @@ public class HammerMoveset : MonoBehaviour {
 
                         InstantiateImpactParticle(hitColliders, true);
                         cameraShake();
+                        FindObjectOfType<GuardianAudio>().playImpactSound();
                     }
                 }
             }
@@ -149,6 +154,7 @@ public class HammerMoveset : MonoBehaviour {
 
                 InstantiateImpactParticle(hitColliders, false);
                 cameraShake();
+                FindObjectOfType<GuardianAudio>().playImpactSound();
             }
 
             yield return new WaitForSeconds(0.4f);
@@ -166,7 +172,7 @@ public class HammerMoveset : MonoBehaviour {
                 swingStartEvent.Invoke();
             }
             _animators[0].SetTrigger("swingToward");
-            _animators[1].SetTrigger("swingToward");
+            //_animators[1].SetTrigger("swingToward");
 
             yield return new WaitForSeconds(0.1f);
 
@@ -181,6 +187,7 @@ public class HammerMoveset : MonoBehaviour {
 
                         InstantiateImpactParticle(hitColliders, false);
                         cameraShake();
+                        FindObjectOfType<GuardianAudio>().playImpactSound();
                     }
                 }
             }
@@ -193,6 +200,7 @@ public class HammerMoveset : MonoBehaviour {
 
                         InstantiateImpactParticle(hitColliders, true);
                         cameraShake();
+                        FindObjectOfType<GuardianAudio>().playImpactSound();
                     }
                 }
             }
@@ -204,6 +212,7 @@ public class HammerMoveset : MonoBehaviour {
 
                 InstantiateImpactParticle(hitColliders, false);
                 cameraShake();
+                FindObjectOfType<GuardianAudio>().playImpactSound();
             }
 
             yield return new WaitForSeconds(0.4f);

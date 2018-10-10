@@ -33,16 +33,6 @@ public class Rotatable : MonoBehaviour
                 rotationAxisVector = Vector3.up; break;
         }
     }
-    
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.P)) {
-            StartCoroutine(Rotate(true));
-        }
-        if (Input.GetKeyDown(KeyCode.O)) {
-            StartCoroutine(Rotate(false));
-        }
-    }
 
     private IEnumerator Rotate(bool directionPositive)
     {
