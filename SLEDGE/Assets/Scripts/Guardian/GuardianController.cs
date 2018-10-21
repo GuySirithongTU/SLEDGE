@@ -26,11 +26,15 @@ public class GuardianController : MonoBehaviour
     private bool isSwinging = false;
     private bool platformRotating = false;
     private bool goalReached = false;
-    
+
+    private int keyCount = 0;
+
     private Rigidbody _rigidbody;
 
     public event Action jumpEvent;
     public event Action landEvent;
+
+    public event Action<int> keyCountUpdateEvent;
 
     private void Awake()
     {
@@ -54,7 +58,7 @@ public class GuardianController : MonoBehaviour
             platformAttach.detachEvent += OnPlatformDetach;
         }
 
-        FindObjectOfType<Goal>().reachGoalEvent += OnReachGoal;
+        FindObjectOfType<GoalUI>().reachGoalEvent += OnReachGoal;
     }
 
     private void Update()
@@ -143,9 +147,19 @@ public class GuardianController : MonoBehaviour
         transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
     }
 
-    public bool getFacingRight()
+    private void OnTriggerEnter(Collider collider)
     {
-        return facingRight;
+        // Collectibles
+        if(collider.gameObject.layer == 15) {
+            if(collider.gameObject.CompareTag("Key")) {
+                keyCount += 1;
+                if(keyCountUpdateEvent != null) {
+                    keyCountUpdateEvent.Invoke(keyCount);
+                }
+            }
+
+            collider.gameObject.GetComponent<Collectible>().Collect();
+        }
     }
 
     private void OnSwingingStart()
@@ -153,6 +167,7 @@ public class GuardianController : MonoBehaviour
         isSwinging = true;
         _rigidbody.velocity = Vector3.zero;
     }
+
 
     private void OnSwingingEnd()
     {
@@ -186,6 +201,11 @@ public class GuardianController : MonoBehaviour
         _rigidbody.velocity = Vector3.zero;
     }
     
+    public bool getFacingRight()
+    {
+        return facingRight;
+    }
+
     public bool getIsGrounded()
     {
         return isGrounded;
