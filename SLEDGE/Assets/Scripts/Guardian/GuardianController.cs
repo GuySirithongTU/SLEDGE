@@ -9,6 +9,7 @@ public class GuardianController : MonoBehaviour
     [SerializeField] private float walkSpeed = 5.0f;
     [Range(0, 0.5f)] [SerializeField] private float walkSmooth = 0.05f;
     
+    private bool jumpStart = false;
     private bool jump = false;
     [SerializeField] private float jumpForce = 100.0f;
     [SerializeField] private float jumpFallMultiplier = 2.0f;
@@ -35,6 +36,9 @@ public class GuardianController : MonoBehaviour
     public event Action landEvent;
 
     public event Action<int> keyCountUpdateEvent;
+
+    public event Action<CameraVolume> enterCameraVolumeEvent;
+    public event Action exitCameraVolumeEvent;
 
     private void Awake()
     {
@@ -64,6 +68,7 @@ public class GuardianController : MonoBehaviour
     private void Update()
     {
         walk = Input.GetAxisRaw("Horizontal") * walkSpeed;
+        jumpStart = Input.GetButtonDown("Jump");
         jump = Input.GetButton("Jump");
         
         CheckGround();
@@ -120,7 +125,7 @@ public class GuardianController : MonoBehaviour
     private void Jump()
     {
         // Initial force.
-        if(jump && isGrounded && !justJumped) {
+        if(jumpStart && isGrounded && !justJumped) {
             StartCoroutine(JustJumpStart());
             isGrounded = false;
             _rigidbody.AddForce(new Vector3(0.0f, jumpForce, 0.0f));
@@ -159,6 +164,19 @@ public class GuardianController : MonoBehaviour
             }
 
             collider.gameObject.GetComponent<Collectible>().Collect();
+        }
+        
+        // Camera Volume.
+        if (collider.CompareTag("CameraVolume")) {
+            enterCameraVolumeEvent.Invoke(collider.GetComponent<CameraVolume>());
+        }
+    }
+
+    private void OnTriggerExit(Collider collider)
+    {
+        // Camera Volume.
+        if (collider.CompareTag("CameraVolume")) {
+            exitCameraVolumeEvent.Invoke();
         }
     }
 

@@ -21,7 +21,6 @@ public class Switch : MonoBehaviour {
 
     private void Update()
     {
-        Debug.Log(isPressed);
         if(!isPressed) {
             switchRigidbody.AddForce(Vector3.up * switchResistance, ForceMode.Acceleration);
 
