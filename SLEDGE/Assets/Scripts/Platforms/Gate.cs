@@ -16,13 +16,18 @@ public class Gate : MonoBehaviour {
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.P)) {
-            StartCoroutine(OnGateOpen());
+            OnGateOpenStart();
         }
     }
 
     private void FixedUpdate()
     {
         gateVelocity = gateBlock.velocity;
+    }
+
+    public void OnGateOpenStart()
+    {
+        StartCoroutine(OnGateOpen());
     }
 
     private IEnumerator OnGateOpen()

@@ -24,24 +24,35 @@ public class Movable : MonoBehaviour {
         } else {
             _rigidbody.isKinematic = false;
         }
+        //Debug.Log(isMoving);
     }
 
     private IEnumerator Move(bool movingRight)
     {
         isMoving = true;
+
+        yield return null;
+        if(movingRight) {
+            _rigidbody.AddForce(Vector3.right * moveSpeed, ForceMode.Impulse);
+        } else {
+            _rigidbody.AddForce(Vector3.left * moveSpeed, ForceMode.Impulse);
+        }
         
         int iteration = 0;
         while (isMoving) {
-
+            /*
             // Set rigidbody velocity.
-            if (movingRight) {
-                _rigidbody.velocity = new Vector3(moveSpeed, _rigidbody.velocity.y, _rigidbody.velocity.z);
+            _rigidbody.velocity = new Vector3(moveSpeed, _rigidbody.velocity.y, _rigidbody.velocity.z);
+            /*if (movingRight) {
+                _rigidbody.velocity = new Vector3(velocityX, _rigidbody.velocity.y, _rigidbody.velocity.z);
             } else {
-                _rigidbody.velocity = new Vector3(-moveSpeed, _rigidbody.velocity.y, _rigidbody.velocity.z);
+                _rigidbody.velocity = new Vector3(-velocityX, _rigidbody.velocity.y, _rigidbody.velocity.z);
             }
-
+            yield return new WaitForSeconds(1f);
             // Wait for next update.
-            yield return null;
+            */
+            //yield return null;
+
             
             // Every 4 iteration, if velocity is low enough, stop moving.
             if ((iteration % 4 == 3) && (_rigidbody.velocity.magnitude < 0.005f)) { 
@@ -50,6 +61,7 @@ public class Movable : MonoBehaviour {
             }
 
             iteration++;
+            yield return null;
         }
     }
 
