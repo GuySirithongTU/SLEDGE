@@ -62,7 +62,9 @@ public class GuardianController : MonoBehaviour
             platformAttach.detachEvent += OnPlatformDetach;
         }
 
-        FindObjectOfType<GoalUI>().reachGoalEvent += OnReachGoal;
+        if(FindObjectsOfType<GoalUI>().Length > 0) {
+            FindObjectOfType<GoalUI>().reachGoalEvent += OnReachGoal;
+        }
     }
 
     private void Update()
@@ -85,7 +87,7 @@ public class GuardianController : MonoBehaviour
             Walk();
             Jump();
 
-            if ((walk > 0.0f && !facingRight) || (walk < 0.0f && facingRight)) {
+            if ((walk > 0.0f && !facingRight) || (walk < 0.0f && facingRight) && !PauseUI.GetGameIsPaused()) {
                 Flip();
             }
         }
