@@ -21,7 +21,8 @@ public class GuardianController : MonoBehaviour
     private Vector3 velocity = Vector3.zero;
 
     private bool facingRight = true;
-    private bool wasGrounded = false;
+    private bool wasGrounded = true;
+    private bool wasAirborne = false;
     private bool justJumped = false;
     private bool isPlatformAttached = false;
     private bool isSwinging = false;
@@ -100,8 +101,9 @@ public class GuardianController : MonoBehaviour
         Collider[] hitColliders = Physics.OverlapSphere(groundCheck.position, groundCheckRadius, groundCheckMask);
         if(hitColliders.Length > 0) {
             isGrounded = true;
-
+            
             if(!wasGrounded) {
+                transform.GetChild(0).GetComponent<Animator>().SetBool("isAirborne", false);
                 landEvent.Invoke();
                 _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, _rigidbody.velocity.y, 0f);
             }
@@ -109,8 +111,10 @@ public class GuardianController : MonoBehaviour
             wasGrounded = true;
         } else {
             isGrounded = false;
-
+            
             if(wasGrounded) {
+                transform.GetChild(0).GetComponent<Animator>().SetBool("isAirborne", true);
+                transform.GetChild(0).GetComponent<Animator>().SetTrigger("jump");
                 jumpEvent.Invoke();
             }
 
@@ -142,10 +146,12 @@ public class GuardianController : MonoBehaviour
     private IEnumerator JustJumpStart()
     {
         justJumped = true;
+        transform.GetChild(0).GetComponent<Animator>().SetBool("justJumped", true);
 
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
 
         justJumped = false;
+        transform.GetChild(0).GetComponent<Animator>().SetBool("justJumped", false);
     }
 
     private void Flip()
