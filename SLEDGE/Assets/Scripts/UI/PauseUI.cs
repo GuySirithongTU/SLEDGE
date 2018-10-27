@@ -9,6 +9,8 @@ public class PauseUI : MonoBehaviour {
     [SerializeField] private GameObject pauseUI;
     [SerializeField] private GameObject contentPanel;
 
+    [SerializeField] private Animator fadeAnimator;
+
     private static bool gameIsPaused = false;
 
     private void Update()
@@ -47,12 +49,24 @@ public class PauseUI : MonoBehaviour {
         gameIsPaused = false;
         Time.timeScale = 1f;
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        StartCoroutine(FadeLoadScene(SceneManager.GetActiveScene().buildIndex));
     }
+        
+
 
     public void Menu()
     {
-        
+        Resume();
+        StartCoroutine(FadeLoadScene(0));
+    }
+
+    private IEnumerator FadeLoadScene(int sceneIndex)
+    {
+        fadeAnimator.SetTrigger("fadeOut");
+
+        yield return new WaitForSeconds(1.5f);
+
+        SceneManager.LoadScene(sceneIndex);
     }
 
     public void EnableButtons()

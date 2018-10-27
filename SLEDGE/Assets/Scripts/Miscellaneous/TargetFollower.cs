@@ -10,9 +10,12 @@ public class TargetFollower : MonoBehaviour {
     [SerializeField] private bool lockZ = true;
     [SerializeField] private bool isCamera = false;
     [SerializeField] private float zValue = -10f;
+    [SerializeField] private float lockVertical = 0.5f;
+    [SerializeField] private float lockHorizontal = 3f;
 
     private Vector3 velocity;
     private CameraVolume cameraVolume = null;
+    private bool justExitedCameraVolume = false;
 
     [SerializeField] private Transform target;
 
@@ -24,8 +27,10 @@ public class TargetFollower : MonoBehaviour {
             transform.position = new Vector3(target.position.x * parallax, target.position.y * parallax, target.position.z) + offset;
         }
 
-        FindObjectOfType<GuardianController>().enterCameraVolumeEvent += OnEnterCameraVolume;
-        FindObjectOfType<GuardianController>().exitCameraVolumeEvent += OnExitCameraVolume;
+        if(FindObjectsOfType<GuardianController>().Length > 0) {
+            FindObjectOfType<GuardianController>().enterCameraVolumeEvent += OnEnterCameraVolume;
+            FindObjectOfType<GuardianController>().exitCameraVolumeEvent += OnExitCameraVolume;
+        }
     }
 
     private void FixedUpdate()
@@ -33,7 +38,6 @@ public class TargetFollower : MonoBehaviour {
         Vector3 targetPosition;
 
         if(isCamera && cameraVolume != null) {
-            //Debug.Log("x");
             targetPosition = cameraVolume.getCameraAnchor().position;
             targetPosition = new Vector3(targetPosition.x, targetPosition.y, cameraVolume.getCameraZ());
         } else if(lockZ) {
@@ -45,6 +49,29 @@ public class TargetFollower : MonoBehaviour {
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, ease);
     }
 
+    private void LateUpdate()
+    {
+        if (isCamera && cameraVolume == null && !justExitedCameraVolume) {
+            Vector3 targetPosition = new Vector3(target.position.x * parallax + offset.x, target.position.y * parallax + offset.y, zValue);
+
+            if (transform.position.y > targetPosition.y + lockVertical) {
+                transform.position = new Vector3(transform.position.x, targetPosition.y + lockVertical, transform.position.z);
+            }
+
+            if (transform.position.y < targetPosition.y - lockVertical) {
+                transform.position = new Vector3(transform.position.x, targetPosition.y + lockVertical, transform.position.z);
+            }
+
+            if (transform.position.x > targetPosition.x + lockHorizontal) {
+                transform.position = new Vector3(targetPosition.x - lockHorizontal, transform.position.y, transform.position.z);
+            }
+
+            if (transform.position.x < targetPosition.x - lockHorizontal) {
+                transform.position = new Vector3(targetPosition.x + lockHorizontal, transform.position.y, transform.position.z);
+            }
+        }
+    }
+
     private void OnEnterCameraVolume(CameraVolume newCameraVolume)
     {
         cameraVolume = newCameraVolume;
@@ -53,5 +80,23 @@ public class TargetFollower : MonoBehaviour {
     private void OnExitCameraVolume()
     {
         cameraVolume = null;
+        StartCoroutine(UpdateJustExitedCameraVolume());
+    }
+
+    private IEnumerator UpdateJustExitedCameraVolume()
+    {
+        justExitedCameraVolume = true;
+        Vector3 targetPosition = new Vector3(target.position.x * parallax + offset.x, target.position.y * parallax + offset.y, zValue);
+        
+        while(transform.position.y > targetPosition.y + lockVertical ||
+            transform.position.y < targetPosition.y - lockVertical ||
+            transform.position.x > targetPosition.x + lockHorizontal ||
+            transform.position.x < targetPosition.x - lockHorizontal) {
+            
+            yield return null;
+            targetPosition = new Vector3(target.position.x * parallax + offset.x, target.position.y * parallax + offset.y, zValue);
+        }
+
+        justExitedCameraVolume = false;
     }
 }
