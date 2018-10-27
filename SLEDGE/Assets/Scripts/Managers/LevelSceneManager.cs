@@ -7,9 +7,11 @@ public class LevelSceneManager : MonoBehaviour {
 
     private void Update()
     {
+        /*
         if(Input.GetKeyDown(KeyCode.Escape)) {
             QuitGame();
         }
+        */
         if(Input.GetKeyDown(KeyCode.R)) {
             ReloadScene();
         }
