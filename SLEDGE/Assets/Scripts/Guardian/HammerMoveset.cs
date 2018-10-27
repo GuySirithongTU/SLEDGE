@@ -230,9 +230,9 @@ public class HammerMoveset : MonoBehaviour {
         ParticleSystem.MainModule mainModule = impact.main;
 
         if(!isOnPlatform) {
-            mainModule.startColor = hitColliders[0].transform.GetChild(0).transform.GetChild(0).GetComponent<MeshRenderer>().material.color;
+           // mainModule.startColor = hitColliders[0].transform.GetChild(0).transform.GetChild(0).GetComponent<MeshRenderer>().material.color;
         } else {
-            mainModule.startColor = hitColliders[0].transform.GetComponent<MeshRenderer>().material.color;
+           // mainModule.startColor = hitColliders[0].transform.GetComponent<MeshRenderer>().material.color;
         }
     }
 
