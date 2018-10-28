@@ -716,7 +716,7 @@ RectTransform:
   m_Children:
   - {fileID: 27514132}
   m_Father: {fileID: 921565376}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -736,6 +736,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseUI: {fileID: 27514131}
   contentPanel: {fileID: 1031510647}
+  fadeAnimator: {fileID: 1754367072}
 --- !u!1001 &286228250
 Prefab:
   m_ObjectHideFlags: 0
@@ -860,6 +861,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 1031510648}
     m_Modifications:
+    - target: {fileID: 114916428681474054, guid: 63b62d76df7fc224fbef327989cd7650,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 224631723012784876, guid: 63b62d76df7fc224fbef327989cd7650,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -982,6 +988,31 @@ Prefab:
         type: 2}
       propertyPath: m_Colors.m_DisabledColor.a
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114916428681474054, guid: 63b62d76df7fc224fbef327989cd7650,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114916428681474054, guid: 63b62d76df7fc224fbef327989cd7650,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114916428681474054, guid: 63b62d76df7fc224fbef327989cd7650,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 249129299}
+    - target: {fileID: 114916428681474054, guid: 63b62d76df7fc224fbef327989cd7650,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 114916428681474054, guid: 63b62d76df7fc224fbef327989cd7650,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63b62d76df7fc224fbef327989cd7650, type: 2}
@@ -1706,7 +1737,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 7
   walkSmooth: 0.1
-  jumpForce: 165
+  jumpForce: 120
   jumpFallMultiplier: 2
   groundCheck: {fileID: 1351050565}
   groundCheckMask:
@@ -1720,7 +1751,7 @@ Rigidbody:
   m_GameObject: {fileID: 568353665}
   serializedVersion: 2
   m_Mass: 0.2
-  m_Drag: 0
+  m_Drag: 0.05
   m_AngularDrag: 0
   m_UseGravity: 1
   m_IsKinematic: 0
@@ -1829,6 +1860,8 @@ MonoBehaviour:
   lockZ: 1
   isCamera: 1
   zValue: -15
+  lockVertical: 0.5
+  lockHorizontal: 3
   target: {fileID: 568353671}
 --- !u!4 &718206437 stripped
 Transform:
@@ -2158,9 +2191,9 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
-  - {fileID: 1754367071}
   - {fileID: 1849156563}
   - {fileID: 249129298}
+  - {fileID: 1754367071}
   m_Father: {fileID: 801744725}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2713,6 +2746,8 @@ MonoBehaviour:
   lockZ: 1
   isCamera: 0
   zValue: -10
+  lockVertical: 0.5
+  lockHorizontal: 3
   target: {fileID: 1626128835}
 --- !u!108 &1244638562
 Light:
@@ -3840,7 +3875,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 921565376}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -3878,7 +3913,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -4146,7 +4181,7 @@ RectTransform:
   - {fileID: 1705899375}
   - {fileID: 307349060}
   m_Father: {fileID: 921565376}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
