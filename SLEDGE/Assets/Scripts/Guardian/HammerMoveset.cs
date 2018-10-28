@@ -59,7 +59,7 @@ public class HammerMoveset : MonoBehaviour {
             _animators[0].SetTrigger("swingGround");
             //_animators[1].SetTrigger("swingGround");
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.33f);
 
             Collider[] hitColliders;
             // For ground while on a static platform, check ground transform for rotatables.
@@ -230,9 +230,9 @@ public class HammerMoveset : MonoBehaviour {
         ParticleSystem.MainModule mainModule = impact.main;
 
         if(!isOnPlatform) {
-            mainModule.startColor = hitColliders[0].transform.GetChild(0).transform.GetChild(0).GetComponent<MeshRenderer>().material.color;
+           // mainModule.startColor = hitColliders[0].transform.GetChild(0).transform.GetChild(0).GetComponent<MeshRenderer>().material.color;
         } else {
-            mainModule.startColor = hitColliders[0].transform.GetComponent<MeshRenderer>().material.color;
+           // mainModule.startColor = hitColliders[0].transform.GetComponent<MeshRenderer>().material.color;
         }
     }
 
