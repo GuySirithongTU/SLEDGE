@@ -59,7 +59,7 @@ public class HammerMoveset : MonoBehaviour {
             _animators[0].SetTrigger("swingGround");
             //_animators[1].SetTrigger("swingGround");
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.33f);
 
             Collider[] hitColliders;
             // For ground while on a static platform, check ground transform for rotatables.

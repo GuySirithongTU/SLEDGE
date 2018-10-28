@@ -59,15 +59,15 @@ public class TargetFollower : MonoBehaviour {
             }
 
             if (transform.position.y < targetPosition.y - lockVertical) {
-                transform.position = new Vector3(transform.position.x, targetPosition.y + lockVertical, transform.position.z);
+                transform.position = new Vector3(transform.position.x, targetPosition.y - lockVertical, transform.position.z);
             }
 
             if (transform.position.x > targetPosition.x + lockHorizontal) {
-                transform.position = new Vector3(targetPosition.x - lockHorizontal, transform.position.y, transform.position.z);
+                transform.position = new Vector3(targetPosition.x + lockHorizontal, transform.position.y, transform.position.z);
             }
 
             if (transform.position.x < targetPosition.x - lockHorizontal) {
-                transform.position = new Vector3(targetPosition.x + lockHorizontal, transform.position.y, transform.position.z);
+                transform.position = new Vector3(targetPosition.x - lockHorizontal, transform.position.y, transform.position.z);
             }
         }
     }
