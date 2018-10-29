@@ -9,7 +9,6 @@ TagManager:
   - PlatformRotatable
   - Platform
   - Key
-  - CameraVolume
   layers:
   - Default
   - TransparentFX
