@@ -116,7 +116,7 @@ public class HammerMoveset : MonoBehaviour {
             _animators[0].SetTrigger("swingAway");
             //_animators[1].SetTrigger("swingAway");
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.33f);
 
             Collider[] hitColliders;
             // For away while on a static platform, check back transform for rotatables.
@@ -174,7 +174,7 @@ public class HammerMoveset : MonoBehaviour {
             _animators[0].SetTrigger("swingToward");
             //_animators[1].SetTrigger("swingToward");
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.33f);
 
             Collider[] hitColliders;
             // For toward while on a static platform, check front transform for rotatables.
