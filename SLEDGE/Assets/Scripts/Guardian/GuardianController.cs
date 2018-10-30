@@ -93,7 +93,9 @@ public class GuardianController : MonoBehaviour
             }
         }
 
-
+        if(EndOfLevel.goalReached == true) {
+            OnReachGoal();
+        }
     }
 
     private void CheckGround() {
@@ -178,6 +180,11 @@ public class GuardianController : MonoBehaviour
         if (collider.CompareTag("CameraVolume")) {
             enterCameraVolumeEvent.Invoke(collider.GetComponent<CameraVolume>());
         }
+
+        // Fast Volume.
+        if(collider.CompareTag("FastVolume")) {
+            _rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+        }
     }
 
     private void OnTriggerExit(Collider collider)
@@ -185,6 +192,11 @@ public class GuardianController : MonoBehaviour
         // Camera Volume.
         if (collider.CompareTag("CameraVolume")) {
             exitCameraVolumeEvent.Invoke();
+        }
+
+        // Fast Volume.
+        if (collider.CompareTag("FastVolume")) {
+            _rigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
         }
     }
 

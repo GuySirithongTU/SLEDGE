@@ -220,8 +220,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1167780314}
-        m_MethodName: LoadLevel
+      - m_Target: {fileID: 0}
+        m_MethodName: 
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1607,8 +1607,10 @@ MonoBehaviour:
   offset: {x: 0, y: 0, z: 0}
   parallax: 1
   lockZ: 0
-  isCamera: 1
+  isCamera: 0
   zValue: -15
+  lockVertical: 0.5
+  lockHorizontal: 3
   target: {fileID: 1488885101}
 --- !u!4 &1460330748
 Transform:
@@ -2012,6 +2014,8 @@ MonoBehaviour:
   lockZ: 1
   isCamera: 0
   zValue: -10
+  lockVertical: 0.5
+  lockHorizontal: 3
   target: {fileID: 1460330748}
 --- !u!108 &1784889790
 Light:
@@ -2484,8 +2488,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1167780314}
-        m_MethodName: LoadLevel
+      - m_Target: {fileID: 0}
+        m_MethodName: 
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

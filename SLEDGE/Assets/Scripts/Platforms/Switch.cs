@@ -21,9 +21,10 @@ public class Switch : MonoBehaviour {
 
     private void Update()
     {
-        if(!isPressed) {
+        if (!isPressed) {
             switchRigidbody.AddForce(Vector3.up * switchResistance, ForceMode.Acceleration);
 
+            
             if(Vector3.Distance(transform.GetChild(0).transform.position, pressedCheck.position) <= 0.05f) {
                 transform.GetChild(0).transform.position = pressedCheck.position;
                 isPressed = true;

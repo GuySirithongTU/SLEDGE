@@ -9,6 +9,8 @@ TagManager:
   - PlatformRotatable
   - Platform
   - Key
+  - CameraVolume
+  - FastVolume
   layers:
   - Default
   - TransparentFX
@@ -26,7 +28,7 @@ TagManager:
   - PlatformStatic
   - PlatformMovable
   - Collectible
-  - 
+  - Background
   - 
   - 
   - 
