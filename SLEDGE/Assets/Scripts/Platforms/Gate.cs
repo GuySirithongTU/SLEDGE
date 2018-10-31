@@ -13,13 +13,6 @@ public class Gate : MonoBehaviour {
 
     private Vector3 gateVelocity;
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.P)) {
-            OnGateOpenStart();
-        }
-    }
-
     private void FixedUpdate()
     {
         gateVelocity = gateBlock.velocity;
@@ -32,7 +25,8 @@ public class Gate : MonoBehaviour {
 
     private IEnumerator OnGateOpen()
     {
-        Debug.Log("open");
+        GetComponent<AudioSource>().Play();
+
         while(Vector3.Distance(gateBlock.transform.position, gateDestination.position) >= 0.01f) {
             gateBlock.transform.position = Vector3.SmoothDamp(gateBlock.transform.position, gateDestination.position, ref gateVelocity, smoothTime);
 

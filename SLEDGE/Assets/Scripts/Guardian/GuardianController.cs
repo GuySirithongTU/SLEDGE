@@ -183,7 +183,7 @@ public class GuardianController : MonoBehaviour
 
         // Fast Volume.
         if(collider.CompareTag("FastVolume")) {
-            _rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+            _rigidbody.drag = 2f;
         }
     }
 
@@ -196,7 +196,7 @@ public class GuardianController : MonoBehaviour
 
         // Fast Volume.
         if (collider.CompareTag("FastVolume")) {
-            _rigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
+            _rigidbody.drag = 0.05f;
         }
     }
 

@@ -51,7 +51,7 @@ public class HammerMoveset : MonoBehaviour {
     private IEnumerator Swing()
     {
         ///// GROUND
-        if (Input.GetKeyDown(KeyCode.DownArrow) && !isAirbourne && !isSwinging) {
+        if (Input.GetKeyDown(KeyCode.Space) && !isAirbourne && !isSwinging) {
             isSwinging = true;
             if (swingStartEvent != null) {
                 swingStartEvent.Invoke();
@@ -108,7 +108,7 @@ public class HammerMoveset : MonoBehaviour {
         }
 
         ///// AWAY
-        if (Input.GetKeyDown(KeyCode.RightArrow) && !isAirbourne && !isSwinging) {
+        if (Input.GetKeyDown(KeyCode.UpArrow) && !isAirbourne && !isSwinging) {
             isSwinging = true;
             if (swingStartEvent != null) {
                 swingStartEvent.Invoke();
@@ -166,7 +166,7 @@ public class HammerMoveset : MonoBehaviour {
         }
 
         ///// TOWARD
-        if (Input.GetKeyDown(KeyCode.LeftArrow) && !isAirbourne && !isSwinging) {
+        if (Input.GetKeyDown(KeyCode.DownArrow) && !isAirbourne && !isSwinging) {
             isSwinging = true;
             if (swingStartEvent != null) {
                 swingStartEvent.Invoke();
