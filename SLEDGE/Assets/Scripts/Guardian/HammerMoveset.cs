@@ -125,7 +125,7 @@ public class HammerMoveset : MonoBehaviour {
                 if (hitColliders.Length > 0) {
                     if (hitColliders[0].GetComponent<Rotatable>() != null) {
                         hitColliders[0].GetComponent<Rotatable>().OnHammerLand(hammerModes.away, false);
-
+                        
                         InstantiateImpactParticle(hitColliders, false);
                         cameraShake();
                         FindObjectOfType<GuardianAudio>().playImpactSound();

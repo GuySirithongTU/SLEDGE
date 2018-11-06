@@ -37,8 +37,10 @@ public class Movable : MonoBehaviour {
         } else {
             _rigidbody.AddForce(Vector3.left * moveSpeed, ForceMode.Impulse);
         }
+
+        bool stoppedMoving = false;
+        float stoppedTime = Time.time;
         
-        int iteration = 0;
         while (isMoving) {
             /*
             // Set rigidbody velocity.
@@ -54,13 +56,20 @@ public class Movable : MonoBehaviour {
             //yield return null;
 
             
-            // Every 4 iteration, if velocity is low enough, stop moving.
-            if ((iteration % 4 == 3) && (_rigidbody.velocity.magnitude < 0.005f)) { 
-                isMoving = false;
-                iteration = 0;
+            if(_rigidbody.velocity.magnitude < 0.005f && !stoppedMoving) {
+                stoppedTime = Time.time;
+                stoppedMoving = true;
             }
 
-            iteration++;
+            if(_rigidbody.velocity.magnitude >= 0.005f) {
+                stoppedTime = Time.time;
+                stoppedMoving = false;
+            }
+
+            if (stoppedTime + 1f < Time.time && stoppedMoving) { 
+                isMoving = false;
+            }
+            
             yield return null;
         }
     }

@@ -17,6 +17,10 @@ public class PlatformAttach : MonoBehaviour
                 attachEvent.Invoke();
             }
         }
+
+        if(collision.CompareTag("PlatformMovable")) {
+            collision.gameObject.transform.SetParent(transform.parent.parent);
+        }
     }
 
     private void OnTriggerExit(Collider collision)
@@ -27,6 +31,10 @@ public class PlatformAttach : MonoBehaviour
             if (detachEvent != null) {
                 detachEvent.Invoke();
             }
+        }
+
+        if(collision.CompareTag("PlatformMovable")) {
+            collision.gameObject.transform.SetParent(null);
         }
     }
 }
