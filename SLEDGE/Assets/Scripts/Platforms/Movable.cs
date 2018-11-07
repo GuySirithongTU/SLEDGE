@@ -37,37 +37,18 @@ public class Movable : MonoBehaviour {
         } else {
             _rigidbody.AddForce(Vector3.left * moveSpeed, ForceMode.Impulse);
         }
-
-        bool stoppedMoving = false;
-        float stoppedTime = Time.time;
+        
+        float lastMoving = Time.time;
         
         while (isMoving) {
-            /*
-            // Set rigidbody velocity.
-            _rigidbody.velocity = new Vector3(moveSpeed, _rigidbody.velocity.y, _rigidbody.velocity.z);
-            /*if (movingRight) {
-                _rigidbody.velocity = new Vector3(velocityX, _rigidbody.velocity.y, _rigidbody.velocity.z);
-            } else {
-                _rigidbody.velocity = new Vector3(-velocityX, _rigidbody.velocity.y, _rigidbody.velocity.z);
-            }
-            yield return new WaitForSeconds(1f);
-            // Wait for next update.
-            */
-            //yield return null;
-
             
-            if(_rigidbody.velocity.magnitude < 0.005f && !stoppedMoving) {
-                stoppedTime = Time.time;
-                stoppedMoving = true;
-            }
-
             if(_rigidbody.velocity.magnitude >= 0.005f) {
-                stoppedTime = Time.time;
-                stoppedMoving = false;
+                lastMoving = Time.time;
             }
 
-            if (stoppedTime + 1f < Time.time && stoppedMoving) { 
+            if (lastMoving + 1f <= Time.time) {
                 isMoving = false;
+                Debug.Log("Stop");
             }
             
             yield return null;

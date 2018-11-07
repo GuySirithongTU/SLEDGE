@@ -595,7 +595,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 7
   walkSmooth: 0.1
-  jumpForce: 120
+  jumpForce: 150
   jumpFallMultiplier: 2
   groundCheck: {fileID: 4805486446725002}
   groundCheckMask:
