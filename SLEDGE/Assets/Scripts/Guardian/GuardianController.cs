@@ -258,4 +258,16 @@ public class GuardianController : MonoBehaviour
     {
         return platformRotating;
     }
+
+    public int GetKeyCount()
+    {
+        return keyCount;
+    }
+
+    public void DecrementKey()
+    {
+        if(keyCount > 0) {
+            keyCount--;
+        }
+    }
 }
