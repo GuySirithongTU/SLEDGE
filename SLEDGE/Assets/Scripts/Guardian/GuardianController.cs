@@ -66,6 +66,10 @@ public class GuardianController : MonoBehaviour
         if(FindObjectsOfType<GoalUI>().Length > 0) {
             FindObjectOfType<GoalUI>().reachGoalEvent += OnReachGoal;
         }
+
+        if(keyCountUpdateEvent != null) {
+            keyCountUpdateEvent.Invoke(keyCount);
+        }
     }
 
     private void Update()

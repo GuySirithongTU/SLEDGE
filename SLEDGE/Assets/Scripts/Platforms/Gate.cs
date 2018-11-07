@@ -46,7 +46,6 @@ public class Gate : MonoBehaviour {
     private void Update()
     {
         // Blinking animation.
-
         if(keysRequired == 1) {
             if (FindObjectOfType<GuardianController>().GetKeyCount() > 0) {
                 if (guardianIsNear) {
@@ -54,8 +53,8 @@ public class Gate : MonoBehaviour {
 
                     keyInstructionUI.SetActive(true);
                     keyInstructionUI.GetComponent<Animator>().SetBool("display", true);
+                    keyInstructionUI.transform.position = mainCamera.WorldToScreenPoint(keyholes[0].transform.position);
                 }
-                keyInstructionUI.transform.position = mainCamera.WorldToScreenPoint(keyholes[0].transform.position);
             }
 
         } else if(keysRequired == 2) {
@@ -66,8 +65,8 @@ public class Gate : MonoBehaviour {
 
                         keyInstructionUI.SetActive(true);
                         keyInstructionUI.GetComponent<Animator>().SetBool("display", true);
+                        keyInstructionUI.transform.position = mainCamera.WorldToScreenPoint(keyholes[0].transform.position);
                     }
-                    keyInstructionUI.transform.position = mainCamera.WorldToScreenPoint(keyholes[0].transform.position);
                 }
 
             } else if(keysRequiredLeft == 1) {
@@ -77,19 +76,13 @@ public class Gate : MonoBehaviour {
 
                         keyInstructionUI.SetActive(true);
                         keyInstructionUI.GetComponent<Animator>().SetBool("display", true);
+                        keyInstructionUI.transform.position = mainCamera.WorldToScreenPoint(keyholes[1].transform.position);
                     }
-                    keyInstructionUI.transform.position = mainCamera.WorldToScreenPoint(keyholes[1].transform.position);
                 }
             }
         }
-
-        if(!guardianIsNear) {
-            keyholes[0].GetComponentInChildren<Animator>().SetBool("guardianIsNear", false);
-            keyholes[1].GetComponentInChildren<Animator>().SetBool("guardianIsNear", false);
-
-        }
-
-        if(!guardianIsNear || FindObjectOfType<GuardianController>().GetKeyCount() == 0) {
+        
+        if(FindObjectOfType<GuardianController>().GetKeyCount() == 0) {
             keyInstructionUI.GetComponent<Animator>().SetBool("display", false);
         }
 
@@ -148,6 +141,11 @@ public class Gate : MonoBehaviour {
     public void OnGuardianExit()
     {
         guardianIsNear = false;
+
+        keyInstructionUI.GetComponent<Animator>().SetBool("display", false);
+
+        keyholes[0].GetComponentInChildren<Animator>().SetBool("guardianIsNear", false);
+        keyholes[1].GetComponentInChildren<Animator>().SetBool("guardianIsNear", false);
     }
 
     public int getKeysRequired()
