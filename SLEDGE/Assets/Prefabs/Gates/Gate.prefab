@@ -39,9 +39,9 @@ GameObject:
   - component: {fileID: 33418748792714492}
   - component: {fileID: 23256411694800866}
   - component: {fileID: 65632840777941380}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Cube (2)
-  m_TagString: Untagged
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -221,7 +221,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1072435081557370}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4, y: 0, z: 0}
+  m_LocalPosition: {x: 51, y: 7.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 3}
   m_Children:
   - {fileID: 4110477901431268}
@@ -501,7 +501,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: a35c9aca16984f14aa7980f71a94e08b, type: 2}
+  - {fileID: 2100000, guid: 3990e40ec3c5bd24aa418a000a06cf4e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -634,7 +634,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: ec101d96af6cef7419a10d5ab2806e38, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -785,7 +785,7 @@ MonoBehaviour:
   keyholes:
   - {fileID: 1232262412278160}
   - {fileID: 1628465313980414}
-  keysRequired: 2
+  keysRequired: 0
   smoothTime: 0.1
 --- !u!212 &212251433534538822
 SpriteRenderer:
