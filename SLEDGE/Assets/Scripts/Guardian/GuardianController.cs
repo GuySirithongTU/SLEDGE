@@ -272,6 +272,7 @@ public class GuardianController : MonoBehaviour
     {
         if(keyCount > 0) {
             keyCount--;
+            keyCountUpdateEvent.Invoke(keyCount);
         }
     }
 }
