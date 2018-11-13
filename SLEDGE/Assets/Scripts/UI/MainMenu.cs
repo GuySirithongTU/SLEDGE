@@ -13,10 +13,14 @@ public class MainMenu : MonoBehaviour {
     [SerializeField] private Animator fadeAnimator;
 
     [SerializeField] private Transform cameraTarget;
-    [SerializeField] private float landingY = 1f;
-    [SerializeField] private float levelSelectorY = -3f;
+    [SerializeField] private float infoY = 14f;
+    [SerializeField] private float landingY = 3f;
+    [SerializeField] private float levelSelectorY = -8f;
 
     [SerializeField] private Button[] levelButtons;
+
+    [SerializeField] private GameObject SplashScreenUI;
+    [SerializeField] private AudioSource BGM;
 
     private LevelLockData levelLockData;
 
@@ -31,11 +35,9 @@ public class MainMenu : MonoBehaviour {
         }
     }
 
-	public void LevelSelector()
+    private void Start()
     {
-        cameraTarget.position = new Vector3(cameraTarget.position.x, levelSelectorY, cameraTarget.position.z);
-
-        mainMenuAnimator.SetTrigger("levelSelector");
+        StartCoroutine(WaitSplashScreen());
     }
 
     public void Landing()
@@ -43,6 +45,20 @@ public class MainMenu : MonoBehaviour {
         cameraTarget.position = new Vector3(cameraTarget.position.x, landingY, cameraTarget.position.z);
 
         mainMenuAnimator.SetTrigger("landing");
+    }
+
+	public void LevelSelector()
+    {
+        cameraTarget.position = new Vector3(cameraTarget.position.x, levelSelectorY, cameraTarget.position.z);
+
+        mainMenuAnimator.SetTrigger("levelSelector");
+    }
+
+    public void Info()
+    {
+        cameraTarget.position = new Vector3(cameraTarget.position.x, infoY, cameraTarget.position.z);
+
+        mainMenuAnimator.SetTrigger("info");
     }
 
     public void QuitGame()
@@ -62,6 +78,16 @@ public class MainMenu : MonoBehaviour {
         yield return new WaitForSeconds(1.5f);
 
         SceneManager.LoadScene(level);
+    }
+
+    private IEnumerator WaitSplashScreen()
+    {
+        SplashScreenUI.SetActive(true);
+
+        yield return new WaitForSeconds(8f);
+
+        SplashScreenUI.SetActive(false);
+        BGM.Play();
     }
 
     private void LoadLevelLockData()
