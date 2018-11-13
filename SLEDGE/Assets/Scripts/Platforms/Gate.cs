@@ -50,7 +50,7 @@ public class Gate : MonoBehaviour {
             if (FindObjectOfType<GuardianController>().GetKeyCount() > 0) {
                 if (guardianIsNear) {
                     keyholes[0].GetComponentInChildren<Animator>().SetBool("guardianIsNear", true);
-
+                    
                     keyInstructionUI.SetActive(true);
                     keyInstructionUI.GetComponent<Animator>().SetBool("display", true);
                     keyInstructionUI.transform.position = mainCamera.WorldToScreenPoint(keyholes[0].transform.position);
