@@ -8,32 +8,33 @@ public class TutorialVolume : MonoBehaviour {
     [SerializeField] private Camera mainCamera;
     [SerializeField] private Animator tutorialUIAnimator;
     [SerializeField] private Transform focusTransform;
-    private Collider destinationCollider;
     
-    private bool tutorialUIIsActive = false;
+    private bool tutorialEnded = false;
 
-    private void Start()
-    {
-        destinationCollider = GetComponentInChildren<Collider>();
-    }
+    private static TutorialVolume lastVolume;
 
     private void Update()
     {
-        if(tutorialUIIsActive) {
+        if(this == lastVolume) {
             tutorialUIAnimator.transform.position = mainCamera.WorldToScreenPoint(focusTransform.position);
         }
     }
 
     private void OnTriggerEnter(Collider collider)
     {
-        if(collider.CompareTag("Guardian")) {
-            tutorialUIIsActive = true;
+        if(!tutorialEnded && collider.CompareTag("Guardian")) {
             tutorialUIAnimator.gameObject.SetActive(true);
+
+            tutorialUIAnimator.SetBool("showing", true);
+
+            lastVolume = this;
         }
     }
 
-    public void OnTutorialEnd()
+    private void OnTriggerExit(Collider collider)
     {
-        tutorialUIAnimator.SetTrigger("end");
+        if(!tutorialEnded && collider.CompareTag("Guardian")) {
+            tutorialUIAnimator.SetBool("showing", false);
+        }
     }
 }
