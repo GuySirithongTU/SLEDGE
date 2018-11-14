@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4290401786850570}
   - component: {fileID: 33235808396394718}
   - component: {fileID: 23073850842989214}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 4209151019900056}
   - component: {fileID: 33556258525701340}
   - component: {fileID: 23851782197642566}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +133,7 @@ Transform:
   m_GameObject: {fileID: 1939969604674626}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9, y: 5, z: 0.9}
+  m_LocalScale: {x: 0.9, y: 6, z: 0.9}
   m_Children: []
   m_Father: {fileID: 4930120280876860}
   m_RootOrder: 2
@@ -158,7 +158,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1698435872880560}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 20.5, y: -0.5, z: 0}
+  m_LocalPosition: {x: 99.5, y: 10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4930120280876860}

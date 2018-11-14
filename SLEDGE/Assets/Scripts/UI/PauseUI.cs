@@ -60,6 +60,11 @@ public class PauseUI : MonoBehaviour {
         StartCoroutine(FadeLoadScene(0));
     }
 
+    public void LoadLevel(int level)
+    {
+        StartCoroutine(FadeLoadScene(level));
+    }
+
     private IEnumerator FadeLoadScene(int sceneIndex)
     {
         fadeAnimator.SetTrigger("fadeOut");
