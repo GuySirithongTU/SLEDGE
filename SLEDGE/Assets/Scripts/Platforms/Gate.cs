@@ -13,6 +13,8 @@ public class Gate : MonoBehaviour {
 
     [SerializeField] private GameObject[] keyholes;
 
+    [SerializeField] private AudioSource keyInsertSound;
+
     [SerializeField] private int keysRequired;
     private int keysRequiredLeft;
 
@@ -90,6 +92,8 @@ public class Gate : MonoBehaviour {
         if(Input.GetKeyDown(KeyCode.E) && FindObjectOfType<GuardianController>().GetKeyCount() > 0 && guardianIsNear && keysRequiredLeft > 0) {
             keysRequiredLeft--;
             FindObjectOfType<GuardianController>().DecrementKey();
+            keyInsertSound.Play();
+
 
             if(keysRequired == 1) {
                 keyholes[0].GetComponentInChildren<Animator>().SetTrigger("insert");

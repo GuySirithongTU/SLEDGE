@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class Collectible : MonoBehaviour {
 
+    [SerializeField] private AudioSource collectSound;
+
 	public void Collect()
     {
+        collectSound.Play();
+
         Destroy(gameObject);
     }
 }
