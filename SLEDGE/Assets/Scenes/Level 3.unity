@@ -3856,7 +3856,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 253944999}
         m_MethodName: Menu
         m_Mode: 1
         m_Arguments:
@@ -21777,7 +21777,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: END OF ALPHA DEMONSTRATION
+  m_Text: END OF BETA DEMONSTRATION
 --- !u!222 &1913336851
 CanvasRenderer:
   m_ObjectHideFlags: 0
