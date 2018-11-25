@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level 3.unity
     guid: ffee2214be82eb14baf1fb0613d88796
+  - enabled: 0
+    path: Assets/Scenes/Recording.unity
+    guid: 2468b1aeb350ddd45abea4c3e42f4b93
   m_configObjects: {}
