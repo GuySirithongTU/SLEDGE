@@ -6552,6 +6552,11 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 82974883701116498, guid: 63b62d76df7fc224fbef327989cd7650,
+        type: 2}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: cc891dc945fe2164dbda3ad6f1334b63, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63b62d76df7fc224fbef327989cd7650, type: 2}
   m_IsPrefabAsset: 0
@@ -7986,6 +7991,11 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 82974883701116498, guid: 63b62d76df7fc224fbef327989cd7650,
+        type: 2}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: cc891dc945fe2164dbda3ad6f1334b63, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63b62d76df7fc224fbef327989cd7650, type: 2}
   m_IsPrefabAsset: 0
@@ -15945,6 +15955,11 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 82974883701116498, guid: 63b62d76df7fc224fbef327989cd7650,
+        type: 2}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: cc891dc945fe2164dbda3ad6f1334b63, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63b62d76df7fc224fbef327989cd7650, type: 2}
   m_IsPrefabAsset: 0
