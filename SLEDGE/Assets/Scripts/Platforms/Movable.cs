@@ -18,6 +18,9 @@ public class Movable : MonoBehaviour {
 
     private void Update()
     {
+        if(Input.GetKeyDown(KeyCode.L)) {
+        }
+
         // If not moving, platform is kinematic. Else, platform is not kinematic.
         if (!isMoving) {
             _rigidbody.isKinematic = true;
